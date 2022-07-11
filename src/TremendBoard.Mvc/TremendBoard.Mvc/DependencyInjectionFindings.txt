@@ -1,0 +1,39 @@
+﻿Transient:
+
+before refresh:
+
+timeService1: 19:32:24:6138
+timeService2: 19:32:24:6160
+
+after refresh:
+
+timeService1: 19:33:02:6538
+timeService2: 19:33:02:6538
+(acum sunt egale???  super fast refresh?)
+
+Scoped:
+
+before refresh:
+
+timeService1: 19:30:39:8454
+timeService2: 19:30:39:8454
+
+after refresh:
+
+timeService1: 19:31:18:3512
+timeService2: 19:31:18:3512
+
+Singleton:
+
+before refresh:
+
+timeService1: 19:34:36:2644
+timeService2: 19:34:36:2644
+
+after refresh:
+
+timeService1: 19:34:36:2644
+timeService2: 19:34:36:2644
+
+
+
