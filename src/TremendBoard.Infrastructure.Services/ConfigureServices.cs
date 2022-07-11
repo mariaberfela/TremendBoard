@@ -15,9 +15,11 @@ namespace TremendBoard.Infrastructure.Services
         public static IServiceCollection AddRepository(this IServiceCollection services, string connectionString, int maxRetryCount, int maxRetryDelay)
         {
             services.AddTransient<IDateTime, SystemDateTime>();
+            services.AddTransient<ITransientTimeService, TransientTimeService>();
+            services.AddScoped<IScopedTimeService, ScopedTimeService>();
+            services.AddSingleton<ISingletonTimeService, SingletonTimeService>();
             services.AddTransient<IJobTestService, JobTestService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-
             services.AddDbContext<TremendBoardDbContext>(options =>
                                options.UseSqlServer(connectionString, x =>
                                {

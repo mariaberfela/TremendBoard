@@ -19,12 +19,19 @@
             @{
                 if (SignInManager.IsSignedIn(User))
                 {
+                    <p class="card-text">timeService1: @ViewData["timeService1"]</p>
+                    <p class="card-text">timeService2: @ViewData["timeService2"]</p>
                      <a asp-controller="Project" asp-action="Index" class="btn btn-primary">
                         View Scrum Board <i class="fas fa-chevron-right"></i>
                      </a>
                 }
                 else
-                {
+                {   <p class="card-text">This is transient</p>
+                    <p class="card-text">timeService1: @ViewData["timeService1"]</p>
+                    <p class="card-text">This is scoped</p>
+                    <p class="card-text">timeService2: @ViewData["timeService2"]</p>
+                    <p class="card-text">This is singleton</p>
+                    <p class="card-text">timeService3: @ViewData["timeService3"]</p>
                     <a asp-controller="Account" asp-action="Login" class="btn btn-primary">
                         Login to Scrum Board <i class="fas fa-chevron-right"></i>
                      </a>

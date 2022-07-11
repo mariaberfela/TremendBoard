@@ -1,0 +1,7 @@
+Prima data am urmat instructiunile si ora se updata de fiecare data cand dadeam refresh ceea ce pentru Transient si Scoped era ok dar pentru Singleton mi s-a parut dubios deoarece ar fi trebuit sa fie constant prima valoare de cand se acceseaza pagina
+
+L-am intrebat pe coach-ul meu si am ajuns la concluzia ca deoarece valoarea se genera prin intermediul unei functii ce se apela de fiecare data era normal sa se updateze asa ca am ales sa stochez valorea intr-o proprietate ceea ce pentru Transient si Scoped nu inseamna nicio dieferenta dar pentru Singleton avem efectul Intended si anume ca ramane setat la prima valoare
+
+Am facut 3 interfete cu 3 Servicii ca sa le pot afisa pe toate odata for comparison reasons.
+
+Afisarea am facut-o in else-ul view-ului pentru ca nu ma pot loga deoarece nu avem acces la baza de date.
