@@ -16,6 +16,8 @@
           </div>
           <div class="card-body">
             <p class="card-text">View and join projects which belong to you.</p>
+            <p class="card-text">@ViewData["timeService1"]</p>
+            <p class="card-text">@ViewData["timeService2"]</p>
             @{
                 if (SignInManager.IsSignedIn(User))
                 {

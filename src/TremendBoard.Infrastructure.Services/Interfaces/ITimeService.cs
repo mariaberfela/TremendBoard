@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace TremendBoard.Infrastructure.Services.Interfaces
 {
-
-    public interface IDateTime
-    {
-        DateTime Now { get; }
-    }
+	public interface ITimeService
+	{
+		DateTime GetCurrentTime();
+	}
 }
