@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Diagnostics;
 using TremendBoard.Infrastructure.Services.Interfaces;
 using TremendBoard.Mvc.Models;
@@ -8,27 +10,42 @@ namespace TremendBoard.Mvc.Controllers
     public class HomeController : Controller
     {
         private readonly IDateTime _dateTime;
+        private readonly ILogger<HomeController> _logger;
 
-        public HomeController(IDateTime dateTime)
+        public HomeController(IDateTime dateTime, ILogger<HomeController> logger)
         {
             _dateTime = dateTime;
+            _logger = logger;
         }
 
         public IActionResult Index()
         {
             var serverTime = _dateTime.Now;
-            
-            if (serverTime.Hour < 12)
+            try
             {
-                ViewData["Message"] = "It's morning here - Good Morning!";
+                if (serverTime.Hour < 12)
+                {
+                    ViewData["Message"] = "It's morning here - Good Morning!";
+                    _logger.LogInformation("The server says it's morning");
+                }
+                else if (serverTime.Hour < 17)
+                {
+                    ViewData["Message"] = "It's afternoon here - Good Afternoon!";
+                    _logger.LogInformation("The server says it's afternoon");
+                }
+                else if (serverTime.Hour < 24)
+                {
+                    ViewData["Message"] = "It's evening here - Good Evening!";
+                    _logger.LogWarning("In evening time no developer is working here");
+                }
+                else if (serverTime.Hour == null)
+                {
+                    throw new Exception();
+                }
             }
-            else if (serverTime.Hour < 17)
+            catch(Exception ex)
             {
-                ViewData["Message"] = "It's afternoon here - Good Afternoon!";
-            }
-            else
-            {
-                ViewData["Message"] = "It's evening here - Good Evening!";
+                _logger.LogError("The server didn't provide a valid time");
             }
 
             return View();
