@@ -1,0 +1,33 @@
+﻿----------------
+	Transient:
+timeService1: 05:15:54.420
+
+timeService2: 05:15:54.423
+
+Serviciul Transient creeaza o instanta noua la fiecare declarare a sa.
+In exemplul nostru, referintele serviciului vor face indica spre cate o instanta diferita.
+----------------
+
+
+
+----------------
+	Scoped: 
+timeService1: 05:16:50.926
+
+timeService2: 05:16:50.926
+
+Serviciul Scoped creeaza o instanta, odata cu declararea sa in cadrul unui request.
+In exemplul nostru, ambele referinte ale serviciului vor indica spre aceeasi instanta.
+----------------
+
+
+
+----------------
+	Singleton:
+timeService1: 05:20:00.771
+
+timeService2: 05:20:00.771
+
+Serviciul Singleton creeaza o unica instanta a serviciului odata cu prima sa declarare de pe durata vietii aplicatiei.
+In exemplul nostru, ambele referinte ale serviciului vor indica spre aceeasi instanta.
+----------------
