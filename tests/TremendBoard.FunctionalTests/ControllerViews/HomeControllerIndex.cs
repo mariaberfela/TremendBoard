@@ -22,7 +22,7 @@ namespace TremendBord.FunctionalTests.ControllerViews
             _client = _factory.CreateClient();
         }
 
-        [Test]
+/*        [Test]
         public void Index_ReturnsAViewResult()
         {
             // Arrange
@@ -38,7 +38,7 @@ namespace TremendBord.FunctionalTests.ControllerViews
             // Assert
             Assert.That(result, Is.Not.Null);
             Assert.IsInstanceOf<ViewResult>(result);
-        }
+        }*/
 
         [Test]
         public async Task ReturnsViewWithCorrectMessage()
