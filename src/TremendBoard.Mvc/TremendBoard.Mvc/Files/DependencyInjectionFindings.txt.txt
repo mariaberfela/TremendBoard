@@ -1,0 +1,41 @@
+                      -SCOPED-
+
+
+timeService1: 10:06:27.823 AM
+
+timeService2: 10:06:27.823 AM
+
+----> dupa refresh:
+
+timeService1: 10:06:37.998 AM
+
+timeService2: 10:06:37.998 AM
+
+
+                     -TRANSIENT-
+
+timeService1: 10:05:38.769 AM
+
+timeService2: 10:05:38.776 AM
+
+----> dupa refresh:
+
+timeService1: 10:05:48.449 AM
+
+timeService2: 10:05:48.449 AM
+
+
+
+                     -SINGLETON-
+
+timeService1: 10:04:23.004 AM
+
+timeService2: 10:04:23.004 AM
+
+----> dupa refresh:
+
+timeService1: 10:04:23.004 AM
+
+timeService2: 10:04:23.004 AM
+
+->se poate observa ca este acelasi rezultat, deoarece s-a creat o singura instanta
