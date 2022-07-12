@@ -7,15 +7,24 @@ namespace TremendBoard.Mvc.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly ITimeService _timeService1;
+        private readonly ITimeService _timeService2;
+
         private readonly IDateTime _dateTime;
 
-        public HomeController(IDateTime dateTime)
+        public HomeController(IDateTime dateTime, ITimeService timeService1, ITimeService timeService2)
         {
+            _timeService1 = timeService1;
+            _timeService2 = timeService2;
+
             _dateTime = dateTime;
         }
 
         public IActionResult Index()
         {
+            ViewData["timeService1"] = _timeService1.GetCurrentTime();
+            ViewData["timeService2"] = _timeService2.GetCurrentTime();
+
             var serverTime = _dateTime.Now;
             
             if (serverTime.Hour < 12)
