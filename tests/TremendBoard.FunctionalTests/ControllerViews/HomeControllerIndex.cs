@@ -24,13 +24,14 @@ namespace TremendBord.FunctionalTests.ControllerViews
         }
 
         [Test]
-        public object Index_ReturnsAViewResult()
+        public void Index_ReturnsAViewResult()
         {
+            //weird and probably wrong fix
             // Arrange
             var dateService = new Mock<IDateTime>();
             dateService.Setup(service => service.Now)
                 .Returns(DateTime.UtcNow);
-            //mai vezi aici
+
             var timeService = new Mock<ITimeService>();
 
             var logService = new Mock<ILogger<HomeController>>();
