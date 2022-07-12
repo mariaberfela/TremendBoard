@@ -1,0 +1,36 @@
+﻿4., 5. (Transient):
+Rulare:
+timeService1: 2022-07-11 09:07:07.076
+timeService2: 2022-07-11 09:07:07.079
+
+// Observatii: pentru request-uri diferite cat si in cadrul aceluiasi request avem instante diferite
+
+
+
+6. (Scoped):
+Rulare:
+timeService1: 2022-08-11 09:08:21.695
+timeService2: 2022-08-11 09:08:21.695
+
+Dupa refresh:
+timeService1: 2022-08-11 09:08:41.237
+timeService2: 2022-08-11 09:08:41.237
+
+// Observatii: in cadrul aceluiasi request avem aceeasi instanta, iar in cadrul request-urilor diferite avem instante diferite
+
+
+
+7. (Singleton):
+Prima rulare:
+timeService1: 2022-09-11 09:09:43.336
+timeService2: 2022-09-11 09:09:43.336
+
+Prima rulare, dupa refresh:
+timeService1: 2022-09-11 09:09:43.336
+timeService2: 2022-09-11 09:09:43.336
+
+A doua rulare:
+timeService1: 2022-11-11 09:11:05.147
+timeService2: 2022-11-11 09:11:05.147
+
+// Observatii: avem aceeasi instanta atat in cadrul aceluiasi request, cat si in cadrul request-urilor diferite
