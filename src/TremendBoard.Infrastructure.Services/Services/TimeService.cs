@@ -6,9 +6,16 @@ namespace TremendBoard.Infrastructure.Services.Services
 {
     public class TimeService : ITimeService
     {
-        public DateTime GetCurrentTime()
+        private string time { get; set; }
+
+        public TimeService()
         {
-            return DateTime.Now;
+            time = DateTime.Now.ToString("hh:mm:ss.fff");
+        }
+
+        public string GetCurrentTime()
+        {
+            return time;
         }
     }
 }
