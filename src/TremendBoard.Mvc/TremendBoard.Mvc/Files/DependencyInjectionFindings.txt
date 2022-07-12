@@ -1,0 +1,34 @@
+﻿Constantin-Cristian Dragomir 
+
+README
+
+When the lifetime for ITimeService is set to transient
+	
+	timeService1: 02:31:20.212
+	timeService2: 02:31:20.215
+
+When the lifetime for ITimeService is set to scoped
+
+	timeService1: 02:33:24.742
+	timeService2: 02:33:24.742
+
+	After refresh:
+
+	timeService1: 02:33:52.022
+	timeService2: 02:33:52.022
+
+When the lifetime for ITimeService is set to singleton
+
+	timeService1: 02:35:39.646
+	timeService2: 02:35:39.646
+
+	After refresh:
+
+	timeService1: 02:35:39.646
+	timeService2: 02:35:39.646
+
+	After restarting the whole application:
+
+	timeService1: 02:37:08.653
+	timeService2: 02:37:08.653
+	
