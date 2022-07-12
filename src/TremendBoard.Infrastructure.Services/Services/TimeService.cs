@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,12 +7,17 @@ using TremendBoard.Infrastructure.Services.Interfaces;
 
 namespace TremendBoard.Infrastructure.Services.Services
 {
-    internal class TimeService : ITimeService
+    public class TimeService : ITimeService
     {
+        private string _time { get; set; }
+        public TimeService()
+        {
+             _time = DateTime.Now.ToString("hh:mm:ss.fff");
+        }
         public string GetCurrentTime()
         {
-            string time = DateTime.Now.ToString("h:mm:ss tt");
-            return time;
+           
+            return _time;
         }
        
     }
