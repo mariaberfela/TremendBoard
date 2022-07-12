@@ -19,19 +19,19 @@ timeService2: 09:53:31.378
 
 7)
 Rulare:
-timeService1: 10:00:03.233
+timeService1: 11:00:04.386
 
-timeService2: 10:00:03.236
+timeService2: 11:00:04.386
 
 Refresh:
 
-timeService1: 10:00:38.100
+timeService1: 11:00:04.386
 
-timeService2: 10:00:38.101
+timeService2: 11:00:04.386
 
 Stop & Start:
 
 
-timeService1: 10:01:01.786
+timeService1: 11:02:06.458
 
-timeService2: 10:01:01.803
+timeService2: 11:02:06.458
