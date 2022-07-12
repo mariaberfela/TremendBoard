@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 using System;
@@ -23,14 +24,18 @@ namespace TremendBord.FunctionalTests.ControllerViews
         }
 
         [Test]
-        public void Index_ReturnsAViewResult()
+        public object Index_ReturnsAViewResult()
         {
             // Arrange
             var dateService = new Mock<IDateTime>();
             dateService.Setup(service => service.Now)
                 .Returns(DateTime.UtcNow);
+            //mai vezi aici
+            var timeService = new Mock<ITimeService>();
 
-            var controller = new HomeController(dateService.Object);
+            var logService = new Mock<ILogger<HomeController>>();
+
+            var controller = new HomeController(dateService.Object, timeService.Object, timeService.Object, logService.Object);
 
             // Act
             var result = controller.Index();

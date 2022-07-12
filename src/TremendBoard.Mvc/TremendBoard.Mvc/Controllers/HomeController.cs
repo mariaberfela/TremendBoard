@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System;
+using Serilog;
 using System.Diagnostics;
 using TremendBoard.Infrastructure.Services.Interfaces;
 using TremendBoard.Mvc.Models;
+using Microsoft.Extensions.Logging;
 
 namespace TremendBoard.Mvc.Controllers
 {
