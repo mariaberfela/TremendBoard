@@ -48,6 +48,7 @@ namespace TremendBoard.Infrastructure.Data.Context
             {
                 b.ToTable("UserRoles");
             });
+           
 
             modelBuilder.Entity<Project>()
                 .HasMany(e => e.Tasks)
