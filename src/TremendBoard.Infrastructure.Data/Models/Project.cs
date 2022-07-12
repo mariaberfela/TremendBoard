@@ -12,7 +12,8 @@ namespace TremendBoard.Infrastructure.Data.Models
         public string Description { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime CompletedDate { get; set; }
-
+        public string ProjectStatus { get; set; }
+        public string Deadline { get; set; }
         public virtual ICollection<ApplicationUserRole> UserRoles { get; set; }
         public virtual ICollection<ProjectTask> Tasks { get; set; }
     }
