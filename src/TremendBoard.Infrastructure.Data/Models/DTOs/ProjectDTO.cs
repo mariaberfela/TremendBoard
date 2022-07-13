@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
-using TremendBoard.Mvc.Models.RoleViewModels;
-using TremendBoard.Mvc.Models.UserViewModels;
 
-namespace TremendBoard.Mvc.Models.ProjectViewModels
+namespace TremendBoard.Infrastructure.Data.Models.DTOs
 {
-    public class ProjectDetailViewModel
+    public class ProjectDTO
     {
         public string Id { get; set; }
         [Required]
@@ -20,8 +19,8 @@ namespace TremendBoard.Mvc.Models.ProjectViewModels
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime Deadline { get; set; }
 
-        public IList<ProjectUserDetailViewModel> ProjectUsers { get; set; }
-        public IEnumerable<UserDetailViewModel> Users { get; set; }
-        public IEnumerable<ApplicationRoleDetailViewModel> Roles { get; set; }
+        public IList<ProjectUserDTO> ProjectUsers { get; set; }
+        public IEnumerable<UserDTO> Users { get; set; }
+        public IEnumerable<ApplicationRoleDTO> Roles { get; set; }
     }
 }
