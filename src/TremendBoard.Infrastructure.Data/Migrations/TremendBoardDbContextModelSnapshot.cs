@@ -302,7 +302,7 @@ namespace TremendBoard.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Projects");
+                    b.ToTable("Projects", (string)null);
                 });
 
             modelBuilder.Entity("TremendBoard.Infrastructure.Data.Models.ProjectTask", b =>
@@ -333,7 +333,7 @@ namespace TremendBoard.Infrastructure.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("ProjectTasks");
+                    b.ToTable("ProjectTasks", (string)null);
                 });
 
             modelBuilder.Entity("TremendBoard.Infrastructure.Data.Models.Identity.ApplicationRoleClaim", b =>

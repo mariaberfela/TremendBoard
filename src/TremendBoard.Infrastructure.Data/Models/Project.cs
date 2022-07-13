@@ -12,6 +12,9 @@ namespace TremendBoard.Infrastructure.Data.Models
         public string Description { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime CompletedDate { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime Deadline { get; set; }
         public string ProjectStatus { get; set; }
         public virtual ICollection<ApplicationUserRole> UserRoles { get; set; }
