@@ -17,6 +17,8 @@
           <div class="card-body">
             <p class="card-text">View and join projects which belong to you.</p>
             @{
+                <p class="card-text">timeService1: @ViewData["timeService1"]</p>
+                <p class="card-text">timeService2: @ViewData["timeService2"]</p>
                 if (SignInManager.IsSignedIn(User))
                 {
                      <a asp-controller="Project" asp-action="Index" class="btn btn-primary">

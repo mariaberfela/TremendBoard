@@ -1,0 +1,29 @@
+﻿Transient - different times from the beginning
+
+	timeService1: 09:20:37:9731
+	timeService2: 09:20:37:9799
+
+	-------------Refresh-------------
+
+	timeService1: 09:21:46:3404
+	timeService2: 09:21:46:3405
+
+Scoped - same times running the app for the first time
+
+	timeService1: 09:22:44:8387
+	timeService2: 09:22:44:8387
+
+	-------------Refresh------------- // different times compared to first time running
+
+	timeService1: 09:23:45:4817
+	timeService2: 09:23:45:4817
+
+Singleton - same times running the app for the first time
+
+	timeService1: 09:25:55:5232
+	timeService2: 09:25:55:5232
+
+	-------------Refresh------------- // same times as at runtime
+
+	timeService1: 09:25:55:5232
+	timeService2: 09:25:55:5232

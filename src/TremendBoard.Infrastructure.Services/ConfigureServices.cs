@@ -16,6 +16,9 @@ namespace TremendBoard.Infrastructure.Services
         {
             services.AddTransient<IDateTime, SystemDateTime>();
             services.AddTransient<IJobTestService, JobTestService>();
+            //services.AddTransient<ITimeService, CurrentTime>();
+            //services.AddScoped<ITimeService, CurrentTime>();
+            services.AddSingleton<ITimeService, CurrentTime>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddDbContext<TremendBoardDbContext>(options =>
