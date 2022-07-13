@@ -27,10 +27,11 @@ namespace TremendBord.FunctionalTests.ControllerViews
         {
             // Arrange
             var dateService = new Mock<IDateTime>();
+            var timeService = new Mock<ITimeService>();
             dateService.Setup(service => service.Now)
                 .Returns(DateTime.UtcNow);
 
-            var controller = new HomeController(dateService.Object);
+            var controller = new HomeController(dateService.Object, timeService.Object , timeService.Object);
 
             // Act
             var result = controller.Index();
