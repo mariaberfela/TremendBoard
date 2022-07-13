@@ -10,6 +10,8 @@ namespace TremendBoard.Infrastructure.Data.Models
         [Required]
         public string Name { get; set; }
         public string Description { get; set; }
+        public string ProjectStatus { get; set; }
+        public DateTime Deadline { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime CompletedDate { get; set; }
 
