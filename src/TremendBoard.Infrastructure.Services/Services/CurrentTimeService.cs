@@ -9,13 +9,16 @@ namespace TremendBoard.Infrastructure.Services.Services
 {
     public class CurrentTimeService : ITimeService
     {
-        public DateTime GetCurrentTime { get; private set; }
-        public string GetGUID { get; private set; }
+        public string currentTime;
+        public string guid;
 
         public CurrentTimeService()
         {
-            GetCurrentTime = DateTime.Now;
-            GetGUID = Guid.NewGuid().ToString(); 
+            currentTime = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss.fffff");
+            guid = Guid.NewGuid().ToString(); 
         }
+
+        public string GetCurrentTime => currentTime;
+        public string GetGUID => guid;
     }
 }

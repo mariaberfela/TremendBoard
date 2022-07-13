@@ -21,8 +21,8 @@ namespace TremendBoard.Mvc.Controllers
         {
             var serverTime = _dateTime.Now;
 
-            ViewData["timeService1"] = _timeService1.GetCurrentTime + " " + _timeService1.GetGUID;
-            ViewData["timeService2"] = _timeService2.GetCurrentTime + " " + _timeService2.GetGUID;
+            ViewData["timeService1"] = _timeService1.GetCurrentTime + " - " + _timeService1.GetGUID;
+            ViewData["timeService2"] = _timeService2.GetCurrentTime + " - " + _timeService2.GetGUID;
 
             if (serverTime.Hour < 12)
             {
