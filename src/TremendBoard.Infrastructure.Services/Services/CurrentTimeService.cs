@@ -18,7 +18,7 @@ namespace TremendBoard.Infrastructure.Services.Services
             guid = Guid.NewGuid().ToString(); 
         }
 
-        public string GetCurrentTime => currentTime;
-        public string GetGUID => guid;
+        public string GetCurrentTime() => currentTime;
+        public string GetGUID() => guid;
     }
 }

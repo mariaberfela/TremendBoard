@@ -8,7 +8,7 @@ namespace TremendBoard.Infrastructure.Services.Interfaces
 {
     public interface ITimeService
     {
-        string GetCurrentTime { get; }
-        string GetGUID { get; }
+        string GetCurrentTime();
+        string GetGUID();
     }
 }
