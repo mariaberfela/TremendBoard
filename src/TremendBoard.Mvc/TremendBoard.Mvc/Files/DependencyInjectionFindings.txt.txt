@@ -1,0 +1,33 @@
+For Transient service:
+
+	timeService1: 2022-07-11 20:10:07.285
+
+	timeService2: 2022-07-11 20:10:07.286
+
+For Scoped:
+	timeService1: 2022-07-11 20:12:11.725
+
+	timeService2: 2022-07-11 20:12:11.725
+
+	after refresh:
+
+	timeService1: 2022-07-11 20:12:36.805
+
+	timeService2: 2022-07-11 20:12:36.805
+
+For Singleton:
+	timeService1: 2022-07-11 20:13:19.973
+
+	timeService2: 2022-07-11 20:13:19.973
+
+	after refresh:
+
+	timeService1: 2022-07-11 20:13:19.973
+
+	timeService2: 2022-07-11 20:13:19.973
+	
+	after restarting app:
+
+	timeService1: 2022-07-11 20:14:06.999
+
+	timeService2: 2022-07-11 20:14:06.999
