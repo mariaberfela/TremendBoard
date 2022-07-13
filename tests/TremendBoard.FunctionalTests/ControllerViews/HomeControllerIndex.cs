@@ -4,6 +4,7 @@ using NUnit.Framework;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using TremendBoard.Infrastructure.Services.Concrete;
 using TremendBoard.Infrastructure.Services.Interfaces;
 using TremendBoard.Mvc.Controllers;
 using TremendBord.Mvc;
@@ -30,7 +31,7 @@ namespace TremendBord.FunctionalTests.ControllerViews
             dateService.Setup(service => service.Now)
                 .Returns(DateTime.UtcNow);
 
-            var controller = new HomeController(dateService.Object);
+            var controller = new HomeController(dateService.Object, new TimeService(), new TimeService());
 
             // Act
             var result = controller.Index();

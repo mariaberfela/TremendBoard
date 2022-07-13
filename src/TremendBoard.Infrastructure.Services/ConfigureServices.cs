@@ -31,6 +31,8 @@ namespace TremendBoard.Infrastructure.Services
                 .AddEntityFrameworkStores<TremendBoardDbContext>()
                 .AddDefaultTokenProviders();
 
+            services.AddSingleton<ITimeService, TimeService>();
+
             return services;
         }
     }
