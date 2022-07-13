@@ -16,10 +16,12 @@ namespace TremendBoard.Mvc.Controllers
     public class ProjectController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IProjectService _projectService;
 
-        public ProjectController(IUnitOfWork unitOfWork)
+        public ProjectController(IUnitOfWork unitOfWork, IProjectService projectService)
         {
             _unitOfWork = unitOfWork;
+            _projectService = projectService;
         }
 
         [TempData]
@@ -59,14 +61,18 @@ namespace TremendBoard.Mvc.Controllers
                 return View(model);
             }
 
-            await _unitOfWork.Project.AddAsync(new Project
-            {
-                Name = model.Name,
-                Description = model.Description,
-                CreatedDate = DateTime.Now
-            });
+            _projectService.Create();
 
-            await _unitOfWork.SaveAsync();
+            //await _unitOfWork.Project.AddAsync(new Project
+            //{
+            //    Name = model.Name,
+            //    Description = model.Description,
+            //    CreatedDate = DateTime.Now,
+            //    ProjectStatus = model.ProjectStatus,
+            //    ProjectDeadline = model.ProjectDeadline
+            //});
+
+            //await _unitOfWork.SaveAsync();
 
             return RedirectToAction(nameof(Index));
         }
@@ -74,64 +80,67 @@ namespace TremendBoard.Mvc.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
-            var project = await _unitOfWork.Project.GetByIdAsync(id);
-            
-            if (project == null)
-            {
-                throw new ApplicationException($"Unable to load project with ID '{id}'.");
-            }
+            //var project = await _unitOfWork.Project.GetByIdAsync(id);
 
-            var users = await _unitOfWork.User.GetAllAsync();
-            var usersView = users.Select(user => new UserDetailViewModel
-            {
-                Id = user.Id,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Username = user.UserName,
-                Email = user.Email,
-                PhoneNumber = user.PhoneNumber
-            });
+            //if (project == null)
+            //{
+            //    throw new ApplicationException($"Unable to load project with ID '{id}'.");
+            //}
 
-            var roles = await _unitOfWork.Role.GetAllAsync();
-            var rolesView = roles
-                .Where(x => x.Name != Role.Admin.ToString())
-                .OrderBy(x => x.Name)
-                .Select(r => new ApplicationRoleDetailViewModel
-                {
-                    Id = r.Id,
-                    RoleName = r.Name,
-                    Description = r.Description
-                });
+            //var users = await _unitOfWork.User.GetAllAsync();
+            //var usersView = users.Select(user => new UserDetailViewModel
+            //{
+            //    Id = user.Id,
+            //    FirstName = user.FirstName,
+            //    LastName = user.LastName,
+            //    Username = user.UserName,
+            //    Email = user.Email,
+            //    PhoneNumber = user.PhoneNumber
+            //});
 
-            var model = new ProjectDetailViewModel
-            {
-                Id = id,
-                Name = project.Name,
-                Description = project.Description,
-                ProjectUsers = new List<ProjectUserDetailViewModel>(),
-                Users = usersView,
-                Roles = rolesView
-            };
+            //var roles = await _unitOfWork.Role.GetAllAsync();
+            //var rolesView = roles
+            //    .Where(x => x.Name != Role.Admin.ToString())
+            //    .OrderBy(x => x.Name)
+            //    .Select(r => new ApplicationRoleDetailViewModel
+            //    {
+            //        Id = r.Id,
+            //        RoleName = r.Name,
+            //        Description = r.Description
+            //    });
 
-            var userRoles = _unitOfWork.Project.GetProjectUserRoles(id);
-            
-            foreach (var userRole in userRoles)
-            {
-                var user = users.FirstOrDefault(x => x.Id == userRole.UserId);
-                var role = roles.FirstOrDefault(x => x.Id == userRole.RoleId);
-                
-                var projectUser = new ProjectUserDetailViewModel
-                {
-                    ProjectId = id,
-                    UserId = userRole.UserId,
-                    RoleId = userRole.RoleId,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    UserRoleName = role.Name
-                };
+            //var model = new ProjectDetailViewModel
+            //{
+            //    Id = id,
+            //    Name = project.Name,
+            //    Description = project.Description,
+            //    ProjectUsers = new List<ProjectUserDetailViewModel>(),
+            //    Users = usersView,
+            //    Roles = rolesView,
+            //    ProjectStatus = project.ProjectStatus,
+            //    ProjectDeadline = project.ProjectDeadline
+            //};
 
-                model.ProjectUsers.Add(projectUser);
-            }
+            //var userRoles = _unitOfWork.Project.GetProjectUserRoles(id);
+
+            //foreach (var userRole in userRoles)
+            //{
+            //    var user = users.FirstOrDefault(x => x.Id == userRole.UserId);
+            //    var role = roles.FirstOrDefault(x => x.Id == userRole.RoleId);
+
+            //    var projectUser = new ProjectUserDetailViewModel
+            //    {
+            //        ProjectId = id,
+            //        UserId = userRole.UserId,
+            //        RoleId = userRole.RoleId,
+            //        FirstName = user.FirstName,
+            //        LastName = user.LastName,
+            //        UserRoleName = role.Name
+            //    };
+
+            //    model.ProjectUsers.Add(projectUser);
+            //}
+            var model = await _projectService.Edit(id);
 
             return View(model);
         }
