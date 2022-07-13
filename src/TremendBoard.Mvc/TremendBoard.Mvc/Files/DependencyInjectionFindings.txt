@@ -1,0 +1,14 @@
+﻿When the lifetime of ITimeService is 'Transient', on the application startup, it shows the current time.
+The same happens when the lifetime is 'Scoped'. 
+Both of them get a new instance on application refresh.
+
+If the lifetime is 'Singleton', while the server is running, it will always return the same value. Even if we open a new tab, the value (time) is still the same.
+Just after restarting the application, we will get a new instance of the ITimeService with new value.
+
+Even if 'Transient' and 'Scoped' lifetimes look the same when used just with time returned as a value, they are different.
+To exemplify, I added a new property to ITimeService called GetGUID which returns a string representing a new Guid.
+
+Now, during the runtime of the application we can see the following:
+Transient: both instances will have a different guid because the service gets a new instance every time
+Scoped: both instances will have the same guid because the application will use the same instance of the service, but on refresh, the guid will change
+Singleton: both instances will have the same guid even after refreshing the page or opening a new tab
