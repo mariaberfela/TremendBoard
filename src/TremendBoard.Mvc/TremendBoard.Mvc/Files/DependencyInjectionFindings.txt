@@ -1,0 +1,39 @@
+﻿------ Scoped -------------  (same values during one request)
+
+timeService1: 10:47:20:3175
+
+timeService2: 10:47:20:3175
+
+------------- After refresh -------------
+
+timeService1: 10:48:15:3610
+
+timeService2: 10:48:15:3610
+
+============================================
+
+--------- Transient ----------- (different values every time)
+
+timeService1: 10:53:19:8640232
+
+timeService2: 10:53:19:8640582
+
+---------- After refresh ---------
+
+timeService1: 10:53:54:2985146
+
+timeService2: 10:53:54:2986334
+
+=================================================
+
+------------ Singleton ----------- (same values during aplication lifetime)
+
+timeService1: 10:57:29:1543294
+
+timeService2: 10:57:29:1543294
+
+-------------- After refresh --------
+
+timeService1: 10:57:29:1543294
+
+timeService2: 10:57:29:1543294
