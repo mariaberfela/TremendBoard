@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TremendBoard.Infrastructure.Data.Context;
 
@@ -11,9 +12,10 @@ using TremendBoard.Infrastructure.Data.Context;
 namespace TremendBoard.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(TremendBoardDbContext))]
-    partial class TremendBoardDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220713074234_AddedStatusDeadline")]
+    partial class AddedStatusDeadline
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
