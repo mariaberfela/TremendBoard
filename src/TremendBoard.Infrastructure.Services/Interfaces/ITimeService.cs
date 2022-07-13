@@ -8,6 +8,7 @@ namespace TremendBoard.Infrastructure.Services.Interfaces
 {
 	public interface ITimeService
 	{
-		String GetCurrentTime();
+		string GetCurrentTime();
+
 	}
 }
