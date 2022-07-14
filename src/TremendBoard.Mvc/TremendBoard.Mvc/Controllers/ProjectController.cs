@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using TremendBoard.Infrastructure.Data.Models;
+using TremendBoard.Infrastructure.Data.Models.DTO;
 using TremendBoard.Infrastructure.Data.Models.Identity;
 using TremendBoard.Infrastructure.Services.Interfaces;
-using TremendBoard.Mvc.Enums;
 using TremendBoard.Mvc.Models.ProjectViewModels;
 using TremendBoard.Mvc.Models.RoleViewModels;
 using TremendBoard.Mvc.Models.UserViewModels;
@@ -16,10 +16,14 @@ namespace TremendBoard.Mvc.Controllers
     public class ProjectController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
+        private readonly IProjectService _projectService;
 
-        public ProjectController(IUnitOfWork unitOfWork)
+        public ProjectController(IUnitOfWork unitOfWork, IProjectService projectService, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _projectService = projectService;
+            _mapper = mapper;
         }
 
         [TempData]
@@ -33,7 +37,9 @@ namespace TremendBoard.Mvc.Controllers
             {
                 Id = x.Id,
                 Name = x.Name,
-                Description = x.Description
+                Description = x.Description,
+                Deadline = x.Deadline,
+                ProjectStatus = x.ProjectStatus
             });
 
             var model = new ProjectIndexViewModel
@@ -59,14 +65,8 @@ namespace TremendBoard.Mvc.Controllers
                 return View(model);
             }
 
-            await _unitOfWork.Project.AddAsync(new Project
-            {
-                Name = model.Name,
-                Description = model.Description,
-                CreatedDate = DateTime.Now
-            });
-
-            await _unitOfWork.SaveAsync();
+            var project = _mapper.Map<Project>(model);
+            await _projectService.Create(project);
 
             return RedirectToAction(nameof(Index));
         }
@@ -74,64 +74,53 @@ namespace TremendBoard.Mvc.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
-            var project = await _unitOfWork.Project.GetByIdAsync(id);
-            
-            if (project == null)
-            {
-                throw new ApplicationException($"Unable to load project with ID '{id}'.");
-            }
+            var projectModelEdit = await _projectService.Edit(id);
 
-            var users = await _unitOfWork.User.GetAllAsync();
-            var usersView = users.Select(user => new UserDetailViewModel
+            var usersEdit = new List<UserDetailViewModel>();
+            foreach (var user in projectModelEdit.Users)
             {
-                Id = user.Id,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Username = user.UserName,
-                Email = user.Email,
-                PhoneNumber = user.PhoneNumber
-            });
-
-            var roles = await _unitOfWork.Role.GetAllAsync();
-            var rolesView = roles
-                .Where(x => x.Name != Role.Admin.ToString())
-                .OrderBy(x => x.Name)
-                .Select(r => new ApplicationRoleDetailViewModel
+                var userEdit = new UserDetailViewModel
                 {
-                    Id = r.Id,
-                    RoleName = r.Name,
-                    Description = r.Description
-                });
+                    Id = user.Id,
+                    ApplicationRoles = user.ApplicationRoles,
+                    UserRoleId = user.UserRoleId,
+                    CurrentUserRole = user.CurrentUserRole,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Username = user.Username,
+                    Email = user.Email,
+                    PhoneNumber = user.PhoneNumber
+                };
+
+                usersEdit.Add(userEdit);
+            };
+
+            var rolesEdit = new List<ApplicationRoleDetailViewModel>();
+            foreach (var role in projectModelEdit.Roles)
+            {
+                var roleEdit = new ApplicationRoleDetailViewModel
+                {
+                    Id = role.Id,
+                    RoleName = role.RoleName,
+                    Description = role.Description,
+                    UserRoleName = role.UserRoleName,
+                    StatusMessage = role.StatusMessage
+                };
+
+                rolesEdit.Add(roleEdit);
+            };
 
             var model = new ProjectDetailViewModel
             {
                 Id = id,
-                Name = project.Name,
-                Description = project.Description,
+                Name = projectModelEdit.Name,
+                Description = projectModelEdit.Description,
+                Deadline = projectModelEdit.Deadline,
+                ProjectStatus = projectModelEdit.ProjectStatus,
                 ProjectUsers = new List<ProjectUserDetailViewModel>(),
-                Users = usersView,
-                Roles = rolesView
+                Users = usersEdit,
+                Roles = rolesEdit
             };
-
-            var userRoles = _unitOfWork.Project.GetProjectUserRoles(id);
-            
-            foreach (var userRole in userRoles)
-            {
-                var user = users.FirstOrDefault(x => x.Id == userRole.UserId);
-                var role = roles.FirstOrDefault(x => x.Id == userRole.RoleId);
-                
-                var projectUser = new ProjectUserDetailViewModel
-                {
-                    ProjectId = id,
-                    UserId = userRole.UserId,
-                    RoleId = userRole.RoleId,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    UserRoleName = role.Name
-                };
-
-                model.ProjectUsers.Add(projectUser);
-            }
 
             return View(model);
         }
@@ -154,61 +143,56 @@ namespace TremendBoard.Mvc.Controllers
                 return View(model);
             }
 
-            project.Name = model.Name;
-            project.Description = model.Description;
+            var projectModelEdit = _mapper.Map<ProjectDTO>(model);
+            projectModelEdit = await _projectService.Edit(projectModelEdit, project);
 
-            var users = await _unitOfWork.User.GetAllAsync();
-            var usersView = users.Select(user => new UserDetailViewModel
+            var usersEdit = new List<UserDetailViewModel>();
+            foreach (var user in projectModelEdit.Users)
             {
-                Id = user.Id,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Username = user.UserName,
-                Email = user.Email,
-                PhoneNumber = user.PhoneNumber
-            });
-
-            var roles = await _unitOfWork.Role.GetAllAsync();
-            var rolesView = roles
-                .Where(x => x.Name != Role.Admin.ToString())
-                .OrderBy(x => x.Name)
-                .Select(r => new ApplicationRoleDetailViewModel
+                var userEdit = new UserDetailViewModel
                 {
-                    Id = r.Id,
-                    RoleName = r.Name,
-                    Description = r.Description
-                });
-
-            model.Roles = rolesView;
-            model.Users = usersView;
-
-            var userRoles = _unitOfWork.Project.GetProjectUserRoles(project.Id);
-
-            model.ProjectUsers = new List<ProjectUserDetailViewModel>();
-
-            foreach (var userRole in userRoles)
-            {
-                var user = users.FirstOrDefault(x => x.Id == userRole.UserId);
-                var role = roles.FirstOrDefault(x => x.Id == userRole.RoleId);
-                var projectUser = new ProjectUserDetailViewModel
-                {
-                    ProjectId = project.Id,
-                    UserId = userRole.UserId,
-                    RoleId = userRole.RoleId,
+                    Id = user.Id,
+                    ApplicationRoles = user.ApplicationRoles,
+                    UserRoleId = user.UserRoleId,
+                    CurrentUserRole = user.CurrentUserRole,
                     FirstName = user.FirstName,
                     LastName = user.LastName,
-                    UserRoleName = role.Name
+                    Username = user.Username,
+                    Email = user.Email,
+                    PhoneNumber = user.PhoneNumber
                 };
 
-                model.ProjectUsers.Add(projectUser);
-            }
+                usersEdit.Add(userEdit);
+            };
 
-            _unitOfWork.Project.Update(project);
-            await _unitOfWork.SaveAsync();
+            var rolesEdit = new List<ApplicationRoleDetailViewModel>();
+            foreach (var role in projectModelEdit.Roles)
+            {
+                var roleEdit = new ApplicationRoleDetailViewModel
+                {
+                    Id = role.Id,
+                    RoleName = role.RoleName,
+                    Description = role.Description,
+                    UserRoleName = role.UserRoleName,
+                    StatusMessage = role.StatusMessage
+                };
 
-            model.StatusMessage = $"{project.Name} project has been updated";
+                rolesEdit.Add(roleEdit);
+            };
 
-            return View(model);
+            var modelProject = new ProjectDetailViewModel
+            {
+                Id = projectModelEdit.Id,
+                Name = projectModelEdit.Name,
+                Description = projectModelEdit.Description,
+                ProjectStatus = projectModelEdit.ProjectStatus,
+                Deadline = projectModelEdit.Deadline,
+                ProjectUsers = new List<ProjectUserDetailViewModel>(),
+                Users = usersEdit,
+                Roles = rolesEdit
+            };
+
+            return View(modelProject);
         }
 
         [HttpPost]
