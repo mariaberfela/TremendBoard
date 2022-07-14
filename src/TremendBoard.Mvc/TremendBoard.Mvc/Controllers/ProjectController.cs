@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using TremendBoard.Infrastructure.Data.Models;
 using TremendBoard.Infrastructure.Data.Models.Identity;
@@ -16,10 +17,14 @@ namespace TremendBoard.Mvc.Controllers
     public class ProjectController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IProjectService _projectService;
+        private readonly IMapper _mapper;
 
-        public ProjectController(IUnitOfWork unitOfWork)
+        public ProjectController(IUnitOfWork unitOfWork, IProjectService projectService,IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _projectService = projectService;
+            _mapper = mapper;
         }
 
         [TempData]
@@ -27,7 +32,10 @@ namespace TremendBoard.Mvc.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var projects = await _unitOfWork.Project.GetAllAsync();
+            //var projects = await _unitOfWork.Project.GetAllAsync();
+            var projects = await _projectService.GetProjects();
+            ProjectIndexViewModel projectIndexViewModel = _mapper.Map<ProjectIndexViewModel>(projects);
+
             var projectsView = projects
                 .Select(x => new ProjectDetailViewModel
             {
@@ -42,6 +50,7 @@ namespace TremendBoard.Mvc.Controllers
             };
 
             return View(model);
+            //return View(projectIndexViewModel);
         }
 
         [HttpGet]
@@ -59,14 +68,18 @@ namespace TremendBoard.Mvc.Controllers
                 return View(model);
             }
 
-            await _unitOfWork.Project.AddAsync(new Project
+            //await _unitOfWork.Project.AddAsync(new Project
+            await  _projectService.AddAsync(new Project
             {
                 Name = model.Name,
                 Description = model.Description,
-                CreatedDate = DateTime.Now
+                CreatedDate = DateTime.Now,
+                ProjectStatus = model.ProjectStatus,
+                Deadline = model.ProjectDeadLine
             });
 
-            await _unitOfWork.SaveAsync();
+            //await _unitOfWork.SaveAsync();
+            await _projectService.SaveAsync();
 
             return RedirectToAction(nameof(Index));
         }
@@ -74,14 +87,17 @@ namespace TremendBoard.Mvc.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
-            var project = await _unitOfWork.Project.GetByIdAsync(id);
-            
+            //var project = await _unitOfWork.Project.GetByIdAsync(id);
+            var project = await _projectService.GetByIdAsync(id);
+
             if (project == null)
             {
                 throw new ApplicationException($"Unable to load project with ID '{id}'.");
             }
 
+
             var users = await _unitOfWork.User.GetAllAsync();
+
             var usersView = users.Select(user => new UserDetailViewModel
             {
                 Id = user.Id,
@@ -156,6 +172,8 @@ namespace TremendBoard.Mvc.Controllers
 
             project.Name = model.Name;
             project.Description = model.Description;
+            project.ProjectStatus = model.ProjectStatus;
+            project.Deadline = model.ProjectDeadLine;
 
             var users = await _unitOfWork.User.GetAllAsync();
             var usersView = users.Select(user => new UserDetailViewModel
