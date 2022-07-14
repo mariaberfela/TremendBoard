@@ -141,6 +141,22 @@ namespace TremendBoard.Mvc.Controllers
             //    model.ProjectUsers.Add(projectUser);
             //}
 
+            var projectUsersAux = new List<ProjectUserDetailViewModel>();
+            foreach (var projectUser in modelAux.ProjectUsers)
+            {
+                var projectUserAux = new ProjectUserDetailViewModel
+                {
+                    ProjectId = projectUser.ProjectId,
+                    UserId = projectUser.UserId,
+                    RoleId = projectUser.RoleId,
+                    FirstName = projectUser.FirstName,
+                    LastName = projectUser.LastName,
+                    UserRoleName = projectUser.UserRoleName
+                };
+
+                projectUsersAux.Add(projectUserAux);
+            };
+
             var usersAux = new List<UserDetailViewModel>();
             foreach (var user in modelAux.Users)
             {
@@ -182,7 +198,7 @@ namespace TremendBoard.Mvc.Controllers
                 Description = modelAux.Description,
                 ProjectStatus = modelAux.ProjectStatus,
                 Deadline = modelAux.Deadline,
-                ProjectUsers = new List<ProjectUserDetailViewModel>(),
+                ProjectUsers = projectUsersAux,
                 Users = usersAux,
                 Roles = rolesAux
             };
@@ -268,6 +284,22 @@ namespace TremendBoard.Mvc.Controllers
 
             //model.StatusMessage = $"{project.Name} project has been updated";
 
+            var projectUsersAux = new List<ProjectUserDetailViewModel>();
+            foreach (var projectUser in modelAux.ProjectUsers)
+            {
+                var projectUserAux = new ProjectUserDetailViewModel
+                {
+                    ProjectId = projectUser.ProjectId,
+                    UserId = projectUser.UserId,
+                    RoleId = projectUser.RoleId,
+                    FirstName = projectUser.FirstName,
+                    LastName = projectUser.LastName,
+                    UserRoleName = projectUser.UserRoleName
+                };
+
+                projectUsersAux.Add(projectUserAux);
+            };
+
             var usersAux = new List<UserDetailViewModel>();
             foreach (var user in modelAux.Users)
             {
@@ -310,7 +342,7 @@ namespace TremendBoard.Mvc.Controllers
                 StatusMessage= modelAux.StatusMessage,
                 ProjectStatus = modelAux.ProjectStatus,
                 Deadline = modelAux.Deadline,
-                ProjectUsers = new List<ProjectUserDetailViewModel>(),
+                ProjectUsers = projectUsersAux,
                 Users = usersAux,
                 Roles = rolesAux
             };
