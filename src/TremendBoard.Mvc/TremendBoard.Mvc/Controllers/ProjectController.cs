@@ -200,7 +200,8 @@ namespace TremendBoard.Mvc.Controllers
             }
 
             var projectId = model.Id;
-            var project = await _unitOfWork.Project.GetByIdAsync(projectId);
+            //var project = await _unitOfWork.Project.GetByIdAsync(projectId);
+            var project = await _projectService.GetByIdAsync(projectId);
 
             if (project == null)
             {
@@ -306,6 +307,7 @@ namespace TremendBoard.Mvc.Controllers
                 Id = modelAux.Id,
                 Name = modelAux.Name,
                 Description = modelAux.Description,
+                StatusMessage= modelAux.StatusMessage,
                 ProjectStatus = modelAux.ProjectStatus,
                 Deadline = modelAux.Deadline,
                 ProjectUsers = new List<ProjectUserDetailViewModel>(),

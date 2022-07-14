@@ -8,7 +8,7 @@ using TremendBoard.Infrastructure.Data.Models.DTOs;
 
 namespace TremendBoard.Infrastructure.Services.Interfaces
 {
-    public interface IProjectService
+    public interface IProjectService : IGenericRepository<Project>
     {
         Task Create(Project project);
         Task<ProjectDTO> Edit(string id);

@@ -3,18 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TremendBoard.Infrastructure.Data.Context;
 using TremendBoard.Infrastructure.Data.Enums;
 using TremendBoard.Infrastructure.Data.Models;
 using TremendBoard.Infrastructure.Data.Models.DTOs;
+using TremendBoard.Infrastructure.Services.Concrete;
 using TremendBoard.Infrastructure.Services.Interfaces;
 
 namespace TremendBoard.Infrastructure.Services.Services
 {
-    public class ProjectService: IProjectService
+    public class ProjectService: GenericRepository<Project>, IProjectService
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public ProjectService(IUnitOfWork unitOfWork)
+        public ProjectService(TremendBoardDbContext context, IUnitOfWork unitOfWork) : base(context)
         {
             _unitOfWork = unitOfWork;
         }
