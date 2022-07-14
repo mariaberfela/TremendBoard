@@ -15,21 +15,23 @@
             Scrum Board
           </div>
           <div class="card-body">
-            <p class="card-text">View and join projects which belong to you.</p>
-            @{
+              <p class="card-text">View and join projects which belong to you.</p>
+              <p class="card-text">timeService1: @ViewData["timeService1"]</p>
+              <p class="card-text">timeService2: @ViewData["timeService2"]</p>
+              @{
                 if (SignInManager.IsSignedIn(User))
                 {
-                     <a asp-controller="Project" asp-action="Index" class="btn btn-primary">
-                        View Scrum Board <i class="fas fa-chevron-right"></i>
-                     </a>
+                  <a asp-controller="Project" asp-action="Index" class="btn btn-primary">
+                      View Scrum Board <i class="fas fa-chevron-right"></i>
+                  </a>
                 }
                 else
                 {
-                    <a asp-controller="Account" asp-action="Login" class="btn btn-primary">
-                        Login to Scrum Board <i class="fas fa-chevron-right"></i>
-                     </a>
+                  <a asp-controller="Account" asp-action="Login" class="btn btn-primary">
+                      Login to Scrum Board <i class="fas fa-chevron-right"></i>
+                  </a>
                 }
-            }
+              }
           </div>
         </div>
 </div>
