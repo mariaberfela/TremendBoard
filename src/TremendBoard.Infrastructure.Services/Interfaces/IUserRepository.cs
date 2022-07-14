@@ -2,7 +2,7 @@
 
 namespace TremendBoard.Infrastructure.Services.Interfaces
 {
-    public interface IUserRoleRepository: IGenericRepository<ApplicationUserRole>
+    public interface IUserRoleRepository : IGenericRepository<ApplicationUserRole>
     {
     }
 }

@@ -14,7 +14,6 @@ namespace TremendBoard.Infrastructure.Services.Services
 
         public TimeService()
         {
-            
             _time = DateTime.Now.ToString("yyyy-mm-dd hh:mm:ss.fff");
         }
 
