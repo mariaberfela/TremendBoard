@@ -20,7 +20,7 @@ namespace TremendBoard.Infrastructure.Services.Concrete
             Project = new ProjectRepository(_context);
             ProjectTask = new TaskRepository(_context);
             UserRole = new UserRoleRepository(_context);
-            User = new UserRepository(_context);
+            User = new UserRepository(null, _context);
             Role = new RoleRepository(_context);
         }
 
