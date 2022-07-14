@@ -16,6 +16,12 @@ namespace TremendBoard.Mvc.Models.ProjectViewModels
         public string Description { get; set; }
         public string StatusMessage { get; set; }
 
+        public string Status { get; set; }
+
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
+        public DateTime Deadline { get; set; }
+
         public IList<ProjectUserDetailViewModel> ProjectUsers { get; set; }
         public IEnumerable<UserDetailViewModel> Users { get; set; }
         public IEnumerable<ApplicationRoleDetailViewModel> Roles { get; set; }
