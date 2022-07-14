@@ -15,6 +15,8 @@ namespace TremendBoard.Mvc.Models.ProjectViewModels
         public string Name { get; set; }
         public string Description { get; set; }
         public string StatusMessage { get; set; }
+        public string ProjectStatus { get; set; }
+        public DateTime ProjectDeadLine { get; set; }
 
         public IList<ProjectUserDetailViewModel> ProjectUsers { get; set; }
         public IEnumerable<UserDetailViewModel> Users { get; set; }
