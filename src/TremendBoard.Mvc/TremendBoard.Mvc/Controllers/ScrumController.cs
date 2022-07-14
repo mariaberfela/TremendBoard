@@ -10,6 +10,7 @@ using TremendBoard.Mvc.Models.ProjectViewModels;
 using TremendBoard.Mvc.Models.RoleViewModels;
 using TremendBoard.Mvc.Models.ScrumViewModels;
 using TremendBoard.Mvc.Models.UserViewModels;
+using Role = TremendBoard.Mvc.Enums.Role;
 
 namespace TremendBoard.Mvc.Controllers
 {
