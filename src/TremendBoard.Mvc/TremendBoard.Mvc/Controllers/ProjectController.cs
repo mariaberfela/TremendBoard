@@ -141,67 +141,7 @@ namespace TremendBoard.Mvc.Controllers
             //    model.ProjectUsers.Add(projectUser);
             //}
 
-            var projectUsersAux = new List<ProjectUserDetailViewModel>();
-            foreach (var projectUser in modelAux.ProjectUsers)
-            {
-                var projectUserAux = new ProjectUserDetailViewModel
-                {
-                    ProjectId = projectUser.ProjectId,
-                    UserId = projectUser.UserId,
-                    RoleId = projectUser.RoleId,
-                    FirstName = projectUser.FirstName,
-                    LastName = projectUser.LastName,
-                    UserRoleName = projectUser.UserRoleName
-                };
-
-                projectUsersAux.Add(projectUserAux);
-            };
-
-            var usersAux = new List<UserDetailViewModel>();
-            foreach (var user in modelAux.Users)
-            {
-                var userAux = new UserDetailViewModel
-                {
-                    Id = user.Id,
-                    ApplicationRoles = user.ApplicationRoles,
-                    UserRoleId = user.UserRoleId,
-                    CurrentUserRole = user.CurrentUserRole,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    Username = user.Username,
-                    Email = user.Email,
-                    PhoneNumber = user.PhoneNumber
-                };
-
-                usersAux.Add(userAux);
-            };
-
-            var rolesAux = new List<ApplicationRoleDetailViewModel>();
-            foreach (var role in modelAux.Roles)
-            {
-                var roleAux = new ApplicationRoleDetailViewModel
-                {
-                    Id = role.Id,
-                    RoleName = role.RoleName,
-                    Description = role.Description,
-                    UserRoleName = role.UserRoleName,
-                    StatusMessage = role.StatusMessage
-                };
-
-                rolesAux.Add(roleAux);
-            };
-
-            var model = new ProjectDetailViewModel
-            {
-                Id = id,
-                Name = modelAux.Name,
-                Description = modelAux.Description,
-                ProjectStatus = modelAux.ProjectStatus,
-                Deadline = modelAux.Deadline,
-                ProjectUsers = projectUsersAux,
-                Users = usersAux,
-                Roles = rolesAux
-            };
+            var model = _mapper.Map<ProjectDetailViewModel>(modelAux);
 
             return View(model);
         }
@@ -284,68 +224,7 @@ namespace TremendBoard.Mvc.Controllers
 
             //model.StatusMessage = $"{project.Name} project has been updated";
 
-            var projectUsersAux = new List<ProjectUserDetailViewModel>();
-            foreach (var projectUser in modelAux.ProjectUsers)
-            {
-                var projectUserAux = new ProjectUserDetailViewModel
-                {
-                    ProjectId = projectUser.ProjectId,
-                    UserId = projectUser.UserId,
-                    RoleId = projectUser.RoleId,
-                    FirstName = projectUser.FirstName,
-                    LastName = projectUser.LastName,
-                    UserRoleName = projectUser.UserRoleName
-                };
-
-                projectUsersAux.Add(projectUserAux);
-            };
-
-            var usersAux = new List<UserDetailViewModel>();
-            foreach (var user in modelAux.Users)
-            {
-                var userAux = new UserDetailViewModel
-                {
-                    Id = user.Id,
-                    ApplicationRoles = user.ApplicationRoles,
-                    UserRoleId = user.UserRoleId,
-                    CurrentUserRole = user.CurrentUserRole,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    Username = user.Username,
-                    Email = user.Email,
-                    PhoneNumber = user.PhoneNumber
-                };
-
-                usersAux.Add(userAux);
-            };
-
-            var rolesAux = new List<ApplicationRoleDetailViewModel>();
-            foreach (var role in modelAux.Roles)
-            {
-                var roleAux = new ApplicationRoleDetailViewModel
-                {
-                    Id = role.Id,
-                    RoleName = role.RoleName,
-                    Description = role.Description,
-                    UserRoleName = role.UserRoleName,
-                    StatusMessage = role.StatusMessage
-                };
-
-                rolesAux.Add(roleAux);
-            };
-
-            var modelProject = new ProjectDetailViewModel
-            {
-                Id = modelAux.Id,
-                Name = modelAux.Name,
-                Description = modelAux.Description,
-                StatusMessage= modelAux.StatusMessage,
-                ProjectStatus = modelAux.ProjectStatus,
-                Deadline = modelAux.Deadline,
-                ProjectUsers = projectUsersAux,
-                Users = usersAux,
-                Roles = rolesAux
-            };
+            var modelProject = _mapper.Map<ProjectDetailViewModel>(modelAux);
 
             return View(modelProject);
         }
