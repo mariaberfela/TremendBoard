@@ -5,6 +5,11 @@ namespace TremendBoard.Infrastructure.Services.Services
 {
     public class JobTestService: IJobTestService
     {
+        
+        public JobTestService()
+        {
+            
+        }
         public void FireAndForgetJob()
         {
             Console.WriteLine("Hello from a Fire and Forget job!");
@@ -20,6 +25,10 @@ namespace TremendBoard.Infrastructure.Services.Services
         public void ContinuationJob()
         {
             Console.WriteLine("Hello from a Continuation job!");
+        }
+        public string UnitTestingJob(string input)
+        {
+            return input.ToUpper();
         }
     }
 }

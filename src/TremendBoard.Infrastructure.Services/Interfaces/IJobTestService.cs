@@ -6,5 +6,6 @@
         void ReccuringJob();
         void DelayedJob();
         void ContinuationJob();
+        string UnitTestingJob(string input);
     }
 }
