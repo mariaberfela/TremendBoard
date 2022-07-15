@@ -1,24 +1,25 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using TremendBoard.Infrastructure.Data.Models.Identity;
 
-namespace TremendBoard.Mvc.Models.ProjectViewModels
+namespace TremendBoard.Infrastructure.Services.DTOs
 {
-    public class ProjectUserDetailViewModel
+    public class ProjectUserDetailDTO
     {
-        [Required]
         public string ProjectId { get; set; }
-        [Required]
         public string UserId { get; set; }
-        [Required]
         public string RoleId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string UserRoleName { get; set; }
 
 
-        public ProjectUserDetailViewModel() {}
+        public ProjectUserDetailDTO() { }
 
-        public ProjectUserDetailViewModel(string projectId, ApplicationUserRole userRole, ApplicationUser user, ApplicationRole role)
+        public ProjectUserDetailDTO(string projectId, ApplicationUserRole userRole, ApplicationUser user, ApplicationRole role)
         {
             ProjectId = projectId;
             UserId = userRole.UserId;

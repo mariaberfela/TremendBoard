@@ -5,6 +5,7 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using TremendBoard.Infrastructure.Services.Interfaces;
+using TremendBoard.Infrastructure.Services.Services;
 using TremendBoard.Mvc.Controllers;
 using TremendBord.Mvc;
 
@@ -22,7 +23,7 @@ namespace TremendBord.FunctionalTests.ControllerViews
             _client = _factory.CreateClient();
         }
 
-/*        [Test]
+        [Test]
         public void Index_ReturnsAViewResult()
         {
             // Arrange
@@ -30,7 +31,7 @@ namespace TremendBord.FunctionalTests.ControllerViews
             dateService.Setup(service => service.Now)
                 .Returns(DateTime.UtcNow);
 
-            var controller = new HomeController(dateService.Object);
+            var controller = new HomeController(dateService.Object, new TimeService(), new TimeService());
 
             // Act
             var result = controller.Index();
@@ -38,7 +39,7 @@ namespace TremendBord.FunctionalTests.ControllerViews
             // Assert
             Assert.That(result, Is.Not.Null);
             Assert.IsInstanceOf<ViewResult>(result);
-        }*/
+        }
 
         [Test]
         public async Task ReturnsViewWithCorrectMessage()
