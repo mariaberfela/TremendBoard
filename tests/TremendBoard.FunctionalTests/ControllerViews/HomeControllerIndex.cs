@@ -30,7 +30,7 @@ namespace TremendBord.FunctionalTests.ControllerViews
             dateService.Setup(service => service.Now)
                 .Returns(DateTime.UtcNow);
 
-            var controller = new HomeController(dateService.Object);
+            var controller = new HomeController(dateService.Object, null, null);
 
             // Act
             var result = controller.Index();
