@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TremendBoard.Infrastructure.Data.Models.ViewModels
 {
-    public class ProjectUserDetailsViewModel
+    public class ProjectUserDetailDTO
     {
         public string ProjectId { get; set; }
 

@@ -33,7 +33,7 @@ namespace TremendBoard.Infrastructure.Services.Services
             await _unitOfWork.SaveAsync();
         }
 
-        public async Task<ProjectDetailsViewModel> Edit(string id)
+        public async Task<ProjectDetailDTO> Edit(string id)
         {
             var project = await _unitOfWork.Project.GetByIdAsync(id);
 
@@ -43,7 +43,7 @@ namespace TremendBoard.Infrastructure.Services.Services
             }
 
             var users = await _unitOfWork.User.GetAllAsync();
-            var usersView = users.Select(user => new UserDetailsViewModel
+            var usersView = users.Select(user => new UserDetailDTO
             {
                 Id = user.Id,
                 FirstName = user.FirstName,
@@ -57,21 +57,21 @@ namespace TremendBoard.Infrastructure.Services.Services
             var rolesView = roles
                 .Where(x => x.Name != Role.Admin.ToString())
                 .OrderBy(x => x.Name)
-                .Select(r => new ApplicationRoleDetailsViewModel
+                .Select(r => new ApplicationRoleDetailDTO
                 {
                     Id = r.Id,
                     RoleName = r.Name,
                     Description = r.Description
                 });
 
-            var model = new ProjectDetailsViewModel
+            var model = new ProjectDetailDTO
             {
                 Id = id,
                 Name = project.Name,
                 Description = project.Description,
                 ProjectStatus = project.ProjectStatus,
                 Deadline = project.Deadline,
-                ProjectUsers = new List<ProjectUserDetailsViewModel>(),
+                ProjectUsers = new List<ProjectUserDetailDTO>(),
                 Users = usersView,
                 Roles = rolesView
             };
@@ -83,7 +83,7 @@ namespace TremendBoard.Infrastructure.Services.Services
                 var user = users.FirstOrDefault(x => x.Id == userRole.UserId);
                 var role = roles.FirstOrDefault(x => x.Id == userRole.RoleId);
 
-                var projectUser = new ProjectUserDetailsViewModel
+                var projectUser = new ProjectUserDetailDTO
                 {
                     ProjectId = id,
                     UserId = userRole.UserId,
@@ -99,7 +99,7 @@ namespace TremendBoard.Infrastructure.Services.Services
             return model;
         }
 
-        public async Task<ProjectDetailsViewModel> Edit(ProjectDetailsViewModel model, Project project)
+        public async Task<ProjectDetailDTO> Edit(ProjectDetailDTO model, Project project)
         {
             project.Name = model.Name;
             project.Description = model.Description;
@@ -107,7 +107,7 @@ namespace TremendBoard.Infrastructure.Services.Services
             project.Deadline = model.Deadline;
 
             var users = await _unitOfWork.User.GetAllAsync();
-            var usersView = users.Select(user => new UserDetailsViewModel
+            var usersView = users.Select(user => new UserDetailDTO
             {
                 Id = user.Id,
                 FirstName = user.FirstName,
@@ -121,7 +121,7 @@ namespace TremendBoard.Infrastructure.Services.Services
             var rolesView = roles
                 .Where(x => x.Name != Role.Admin.ToString())
                 .OrderBy(x => x.Name)
-                .Select(r => new ApplicationRoleDetailsViewModel
+                .Select(r => new ApplicationRoleDetailDTO
                 {
                     Id = r.Id,
                     RoleName = r.Name,
@@ -133,13 +133,13 @@ namespace TremendBoard.Infrastructure.Services.Services
 
             var userRoles = _unitOfWork.Project.GetProjectUserRoles(project.Id);
 
-            model.ProjectUsers = new List<ProjectUserDetailsViewModel>();
+            model.ProjectUsers = new List<ProjectUserDetailDTO>();
 
             foreach (var userRole in userRoles)
             {
                 var user = users.FirstOrDefault(x => x.Id == userRole.UserId);
                 var role = roles.FirstOrDefault(x => x.Id == userRole.RoleId);
-                var projectUser = new ProjectUserDetailsViewModel
+                var projectUser = new ProjectUserDetailDTO
                 {
                     ProjectId = project.Id,
                     UserId = userRole.UserId,

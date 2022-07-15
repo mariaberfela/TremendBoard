@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TremendBoard.Infrastructure.Data.Models.ViewModels
 {
-    public class ApplicationRoleDetailsViewModel
+    public class ApplicationRoleDetailDTO
     {
         public string Id { get; set; }
 

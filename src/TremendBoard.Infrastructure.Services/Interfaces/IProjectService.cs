@@ -11,7 +11,7 @@ namespace TremendBoard.Infrastructure.Services.Interfaces
     public interface IProjectService
     {
         Task Create(Project project);
-        Task<ProjectDetailsViewModel> Edit(string id);
-        Task<ProjectDetailsViewModel> Edit(ProjectDetailsViewModel model, Project project);
+        Task<ProjectDetailDTO> Edit(string id);
+        Task<ProjectDetailDTO> Edit(ProjectDetailDTO model, Project project);
     }
 }

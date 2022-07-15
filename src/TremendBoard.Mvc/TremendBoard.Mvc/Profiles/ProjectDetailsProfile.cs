@@ -10,7 +10,7 @@ namespace TremendBoard.Mvc.Profiles
     {
         public ProjectDetailsProfile()
         {
-            CreateMap<ProjectDetailViewModel, ProjectDetailsViewModel>();
+            CreateMap<ProjectDetailViewModel, ProjectDetailDTO>();
         }
     }
 }

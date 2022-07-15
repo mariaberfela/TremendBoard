@@ -7,11 +7,9 @@ using System.Threading.Tasks;
 
 namespace TremendBoard.Infrastructure.Data.Models.ViewModels
 {
-    public class UserDetailsViewModel
+    public class UserDetailDTO
     {
         public string Id { get; set; }
-
-        public SelectList ApplicationRoles { get; set; }
 
         public string UserRoleId { get; set; }
 

@@ -77,59 +77,7 @@ namespace TremendBoard.Mvc.Controllers
         public async Task<IActionResult> Edit(string id)
         {
             var serviceModel = await _projectService.Edit(id);
-
-            var model = new ProjectDetailViewModel
-            {
-                Id = serviceModel.Id,
-                Name = serviceModel.Name,
-                Description = serviceModel.Description,
-                ProjectStatus = serviceModel.ProjectStatus,
-                Deadline = serviceModel.Deadline,
-                ProjectUsers = new List<ProjectUserDetailViewModel>(),
-                Users = new List<UserDetailViewModel>(),
-                Roles = new List<ApplicationRoleDetailViewModel>()
-            };
-
-            foreach (var projectUser in serviceModel.ProjectUsers)
-            {
-                model.ProjectUsers.Add(new ProjectUserDetailViewModel
-                {
-                    ProjectId = projectUser.ProjectId,
-                    UserId = projectUser.UserId,
-                    RoleId = projectUser.RoleId,
-                    FirstName = projectUser.FirstName,
-                    LastName = projectUser.LastName,
-                    UserRoleName = projectUser.UserRoleName
-                });
-            }
-
-            foreach (var user in serviceModel.Users)
-            {
-                model.Users.Append(new UserDetailViewModel
-                {
-                    Id = user.Id,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    Username = user.Username,
-                    Email = user.Email,
-                    PhoneNumber = user.PhoneNumber,
-                    UserRoleId = user.UserRoleId,
-                    ApplicationRoles = user.ApplicationRoles,
-                    CurrentUserRole = user.CurrentUserRole
-                });
-            }
-
-            foreach (var role in serviceModel.Roles)
-            {
-                model.Roles.Append(new ApplicationRoleDetailViewModel
-                {
-                    Id = role.Id,
-                    RoleName = role.RoleName,
-                    UserRoleName = role.UserRoleName,
-                    Description = role.Description,
-                    StatusMessage = role.StatusMessage
-                });
-            }
+            var model = _mapper.Map<ProjectDetailViewModel>(serviceModel);
 
             return View(model);
         }
@@ -152,61 +100,10 @@ namespace TremendBoard.Mvc.Controllers
                 return View(model);
             }
 
-            var serviceModel = _mapper.Map<ProjectDetailsViewModel>(model);
+            var serviceModel = _mapper.Map<ProjectDetailDTO>(model);
             serviceModel = await _projectService.Edit(serviceModel, project);
 
-            model = new ProjectDetailViewModel
-            {
-                Id = serviceModel.Id,
-                Name = serviceModel.Name,
-                Description = serviceModel.Description,
-                ProjectStatus = serviceModel.ProjectStatus,
-                Deadline = serviceModel.Deadline,
-                ProjectUsers = new List<ProjectUserDetailViewModel>(),
-                Users = new List<UserDetailViewModel>(),
-                Roles = new List<ApplicationRoleDetailViewModel>()
-            };
-
-            foreach (var projectUser in serviceModel.ProjectUsers)
-            {
-                model.ProjectUsers.Add(new ProjectUserDetailViewModel
-                {
-                    ProjectId = projectUser.ProjectId,
-                    UserId = projectUser.UserId,
-                    RoleId = projectUser.RoleId,
-                    FirstName = projectUser.FirstName,
-                    LastName = projectUser.LastName,
-                    UserRoleName = projectUser.UserRoleName
-                });
-            }
-
-            foreach (var user in serviceModel.Users)
-            {
-                model.Users.Append(new UserDetailViewModel
-                {
-                    Id = user.Id,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    Username = user.Username,
-                    Email = user.Email,
-                    PhoneNumber = user.PhoneNumber,
-                    UserRoleId = user.UserRoleId,
-                    ApplicationRoles = user.ApplicationRoles,
-                    CurrentUserRole = user.CurrentUserRole
-                });
-            }
-
-            foreach (var role in serviceModel.Roles)
-            {
-                model.Roles.Append(new ApplicationRoleDetailViewModel
-                {
-                    Id = role.Id,
-                    RoleName = role.RoleName,
-                    UserRoleName = role.UserRoleName,
-                    Description = role.Description,
-                    StatusMessage = role.StatusMessage
-                });
-            }
+            model = _mapper.Map<ProjectDetailViewModel>(serviceModel);
 
             model.StatusMessage = $"{project.Name} project has been updated";
 

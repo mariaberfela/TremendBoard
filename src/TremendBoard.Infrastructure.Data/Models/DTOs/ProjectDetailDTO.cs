@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TremendBoard.Infrastructure.Data.Models.ViewModels
 {
-    public class ProjectDetailsViewModel
+    public class ProjectDetailDTO
     {
         public string Id { get; set; }
         [Required]
@@ -20,8 +20,8 @@ namespace TremendBoard.Infrastructure.Data.Models.ViewModels
         public DateTime Deadline { get; set; }
         public string StatusMessage { get; set; }
 
-        public IList<ProjectUserDetailsViewModel> ProjectUsers { get; set; }
-        public IEnumerable<UserDetailsViewModel> Users { get; set; }
-        public IEnumerable<ApplicationRoleDetailsViewModel> Roles { get; set; }
+        public IList<ProjectUserDetailDTO> ProjectUsers { get; set; }
+        public IEnumerable<UserDetailDTO> Users { get; set; }
+        public IEnumerable<ApplicationRoleDetailDTO> Roles { get; set; }
     }
 }
