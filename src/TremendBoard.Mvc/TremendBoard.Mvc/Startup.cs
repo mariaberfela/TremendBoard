@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TremendBoard.Infrastructure.Services;
 using Serilog;
+using TremendBoard.Mvc.Mappers;
 
 namespace TremendBoard.Mvc
 {
@@ -25,6 +26,7 @@ namespace TremendBoard.Mvc
             services.AddControllersWithViews();
             services.AddControllers();
             services.AddSingleton(Configuration);
+            services.AddAutoMapper(typeof(Startup));
 
             services.AddRepository(
                             Configuration.GetConnectionString("SqlConnectionString"),
@@ -34,6 +36,10 @@ namespace TremendBoard.Mvc
             services.ConfigureApplicationCookie(options => options.LoginPath = "/Account/Login");
             services.AddHealthChecks();
             services.AddSwaggerGen();
+
+            //Pretty sure this is not best practice to be done here, but what is best practice after all? :D
+            services.AddTransient<IMapDtoToViewModel, MapDtoToViewModel>();
+            services.AddTransient<IMapViewModelToDto, MapViewModelToDto>();
 
             services.AddHangfire(x =>
             {
