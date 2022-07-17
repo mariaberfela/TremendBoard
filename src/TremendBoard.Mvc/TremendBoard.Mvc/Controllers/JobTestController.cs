@@ -1,5 +1,6 @@
 ﻿using Hangfire;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using TremendBoard.Infrastructure.Services.Interfaces;
 
 namespace TremendBoard.Mvc.Controllers
@@ -23,6 +24,13 @@ namespace TremendBoard.Mvc.Controllers
         public ActionResult CreateFireAndForgetJob()
         {
             _backgroundJobClient.Enqueue(() => _jobTestService.FireAndForgetJob());
+            return Ok();
+        }
+
+        [HttpGet("/DelayedJob")]
+        public ActionResult DelayedJob()
+        {
+            _backgroundJobClient.Schedule(() => _jobTestService.DelayedJob(), TimeSpan.FromSeconds(60));
             return Ok();
         }
     }
