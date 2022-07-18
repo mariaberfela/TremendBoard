@@ -1,10 +1,12 @@
 using Hangfire;
+using Hangfire.SqlServer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Serilog;
 using TremendBoard.Infrastructure.Services;
 
 namespace TremendBoard.Mvc
@@ -38,7 +40,11 @@ namespace TremendBoard.Mvc
 
             services.AddHangfire(x =>
             {
-                x.UseSqlServerStorage(Configuration.GetConnectionString("DBConnection"));
+                x.UseSqlServerStorage(Configuration.GetConnectionString("DBConnection"),
+                    new SqlServerStorageOptions
+                    {
+                        PrepareSchemaIfNecessary = true
+                    });
             });
             services.AddHangfireServer();
         }
@@ -71,13 +77,15 @@ namespace TremendBoard.Mvc
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseSerilogRequestLogging();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapHealthChecks("/health");
             });
 
-            app.UseHangfireDashboard();
+            app.UseHangfireDashboard("/hangfire");
         }
     }
 }
