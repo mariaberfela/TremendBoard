@@ -1,4 +1,5 @@
 using Hangfire;
+using Hangfire.SqlServer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -37,7 +38,11 @@ namespace TremendBoard.Mvc
 
             services.AddHangfire(x =>
             {
-                x.UseSqlServerStorage(Configuration.GetConnectionString("DBConnection"));
+                x.UseSqlServerStorage(Configuration.GetConnectionString("DBConnection"),
+                    new SqlServerStorageOptions
+                    {
+                        PrepareSchemaIfNecessary = true
+                    });
             });
             services.AddHangfireServer();
         }
@@ -78,7 +83,7 @@ namespace TremendBoard.Mvc
                 endpoints.MapHealthChecks("/health");
             });
 
-            app.UseHangfireDashboard();
+            app.UseHangfireDashboard("/hangfire");
         }
     }
 }
