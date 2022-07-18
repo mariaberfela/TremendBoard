@@ -21,5 +21,13 @@ namespace TremendBoard.Infrastructure.Services.Services
             
             return _time;
         }
+        public string Greet()
+        {
+            if (DateTime.Now.Hour < 12)
+                return "Good morning!";
+            else
+                return "Have a great day!";
+        }
+        
     }
 }
