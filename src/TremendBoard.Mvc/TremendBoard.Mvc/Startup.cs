@@ -7,6 +7,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using TremendBoard.Infrastructure.Services;
+using TremendBoard.Infrastructure.Services.Interfaces;
+using TremendBoard.Infrastructure.Services.Services;
 
 namespace TremendBoard.Mvc
 {
@@ -22,6 +24,8 @@ namespace TremendBoard.Mvc
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAutoMapper(typeof(Startup));
+
             services.AddControllersWithViews();
             services.AddControllers();
             services.AddSingleton(Configuration);
@@ -37,7 +41,10 @@ namespace TremendBoard.Mvc
 
             services.AddHangfire(x =>
             {
-                x.UseSqlServerStorage(Configuration.GetConnectionString("DBConnection"));
+                x.UseSqlServerStorage(Configuration.GetConnectionString("DBConnection"), new Hangfire.SqlServer.SqlServerStorageOptions
+                {
+                    PrepareSchemaIfNecessary = true
+                });
             });
             services.AddHangfireServer();
         }

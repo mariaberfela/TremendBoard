@@ -17,6 +17,8 @@ namespace TremendBoard.Infrastructure.Services
             services.AddTransient<IDateTime, SystemDateTime>();
             services.AddTransient<IJobTestService, JobTestService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddSingleton<ITimeService, TimeService>();
+            services.AddTransient<IProjectService, ProjectService>();
 
             services.AddDbContext<TremendBoardDbContext>(options =>
                                options.UseSqlServer(connectionString, x =>
@@ -26,7 +28,7 @@ namespace TremendBoard.Infrastructure.Services
                                        TimeSpan.FromSeconds(maxRetryDelay),
                                        null
                                    );
-                               }));
+                               }), ServiceLifetime.Transient, ServiceLifetime.Transient);
             services.AddIdentity<ApplicationUser, ApplicationRole>()
                 .AddEntityFrameworkStores<TremendBoardDbContext>()
                 .AddDefaultTokenProviders();
