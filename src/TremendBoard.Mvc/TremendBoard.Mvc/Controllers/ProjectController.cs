@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using TremendBoard.Infrastructure.Data.Models;
 using TremendBoard.Infrastructure.Data.Models.Identity;
@@ -16,10 +17,14 @@ namespace TremendBoard.Mvc.Controllers
     public class ProjectController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IProjectService _projectService;
+        private readonly IMapper _mapper;
 
-        public ProjectController(IUnitOfWork unitOfWork)
+        public ProjectController(IUnitOfWork unitOfWork, IProjectService projectService, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _projectService = projectService;
+            _mapper = mapper;
         }
 
         [TempData]
@@ -59,14 +64,8 @@ namespace TremendBoard.Mvc.Controllers
                 return View(model);
             }
 
-            await _unitOfWork.Project.AddAsync(new Project
-            {
-                Name = model.Name,
-                Description = model.Description,
-                CreatedDate = DateTime.Now
-            });
-
-            await _unitOfWork.SaveAsync();
+            var record = _mapper.Map<ProjectDetailViewModel, Project>(model);
+            await _projectService.AddAsync(record);
 
             return RedirectToAction(nameof(Index));
         }
@@ -74,34 +73,18 @@ namespace TremendBoard.Mvc.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
-            var project = await _unitOfWork.Project.GetByIdAsync(id);
-            
+            var project = await _projectService.GetAsync(id);
+
             if (project == null)
             {
                 throw new ApplicationException($"Unable to load project with ID '{id}'.");
             }
 
             var users = await _unitOfWork.User.GetAllAsync();
-            var usersView = users.Select(user => new UserDetailViewModel
-            {
-                Id = user.Id,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Username = user.UserName,
-                Email = user.Email,
-                PhoneNumber = user.PhoneNumber
-            });
-
-            var roles = await _unitOfWork.Role.GetAllAsync();
-            var rolesView = roles
-                .Where(x => x.Name != Role.Admin.ToString())
-                .OrderBy(x => x.Name)
-                .Select(r => new ApplicationRoleDetailViewModel
-                {
-                    Id = r.Id,
-                    RoleName = r.Name,
-                    Description = r.Description
-                });
+            var usersView = _mapper.Map<List<UserDetailViewModel>>(users);
+            
+            var roles = (await _unitOfWork.Role.GetAllAsync()).Where(x => x.Name != Role.Admin.ToString()).OrderBy(x => x.Name);
+            var rolesView = roles.Select(r => _mapper.Map<ApplicationRole, ApplicationRoleDetailViewModel>(r));
 
             var model = new ProjectDetailViewModel
             {
@@ -109,12 +92,14 @@ namespace TremendBoard.Mvc.Controllers
                 Name = project.Name,
                 Description = project.Description,
                 ProjectUsers = new List<ProjectUserDetailViewModel>(),
+                Status = project.Status,
+                Deadline = project.Deadline,
                 Users = usersView,
                 Roles = rolesView
             };
 
-            var userRoles = _unitOfWork.Project.GetProjectUserRoles(id);
-            
+            var userRoles = _projectService.GetProjectUserRoles(id);
+
             foreach (var userRole in userRoles)
             {
                 var user = users.FirstOrDefault(x => x.Id == userRole.UserId);
@@ -146,7 +131,7 @@ namespace TremendBoard.Mvc.Controllers
             }
 
             var projectId = model.Id;
-            var project = await _unitOfWork.Project.GetByIdAsync(projectId);
+            var project = await _projectService.GetAsync(projectId);
 
             if (project == null)
             {
@@ -154,35 +139,21 @@ namespace TremendBoard.Mvc.Controllers
                 return View(model);
             }
 
-            project.Name = model.Name;
-            project.Description = model.Description;
+            _mapper.Map(model, project);
 
             var users = await _unitOfWork.User.GetAllAsync();
-            var usersView = users.Select(user => new UserDetailViewModel
-            {
-                Id = user.Id,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Username = user.UserName,
-                Email = user.Email,
-                PhoneNumber = user.PhoneNumber
-            });
+            var usersView = users.Select(user => _mapper.Map<ApplicationUser, UserDetailViewModel>(user));
 
             var roles = await _unitOfWork.Role.GetAllAsync();
             var rolesView = roles
                 .Where(x => x.Name != Role.Admin.ToString())
                 .OrderBy(x => x.Name)
-                .Select(r => new ApplicationRoleDetailViewModel
-                {
-                    Id = r.Id,
-                    RoleName = r.Name,
-                    Description = r.Description
-                });
+                .Select(r => _mapper.Map<ApplicationRole, ApplicationRoleDetailViewModel>(r));
 
             model.Roles = rolesView;
             model.Users = usersView;
 
-            var userRoles = _unitOfWork.Project.GetProjectUserRoles(project.Id);
+            var userRoles = _projectService.GetProjectUserRoles(project.Id);
 
             model.ProjectUsers = new List<ProjectUserDetailViewModel>();
 
@@ -203,10 +174,8 @@ namespace TremendBoard.Mvc.Controllers
                 model.ProjectUsers.Add(projectUser);
             }
 
-            _unitOfWork.Project.Update(project);
-            await _unitOfWork.SaveAsync();
-
-            model.StatusMessage = $"{project.Name} project has been updated";
+            await _projectService.Update(project);
+            model.StatusMessage = "Project updated successfully";
 
             return View(model);
         }
