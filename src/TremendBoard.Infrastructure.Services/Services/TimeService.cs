@@ -20,5 +20,17 @@ namespace TremendBoard.Infrastructure.Services.Services
         {
             return this.time;
         }
+
+        public bool IsCurrentTimeAWorkingHour()
+        {
+            var time = GetCurrentTime();
+
+            if(time.CompareTo("18:00:00:0000") <= 0)
+            {
+                return true;
+            }
+
+            return false;
+        }
     }
 }

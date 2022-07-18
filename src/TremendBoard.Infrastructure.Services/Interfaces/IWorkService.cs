@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace TremendBoard.Infrastructure.Services.Interfaces
 {
-    public interface ITimeService
+    public interface IWorkService
     {
-        string GetCurrentTime();
-
-        bool IsCurrentTimeAWorkingHour();
-        
+        int CalculateRemainingWeekHours(int workedHours);
     }
 }
