@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using TremendBoard.Infrastructure.Data.Models;
 using TremendBoard.Infrastructure.Services.Interfaces;
@@ -38,7 +37,7 @@ namespace TremendBoard.Infrastructure.Services.Services
             bool isAnyDeadlineExcedeed = false;
             if (projects == null)
             {
-                Debug.WriteLine("There is no project to check!");
+                Console.WriteLine("There is no project to check!");
             }
             else
             {
@@ -46,14 +45,14 @@ namespace TremendBoard.Infrastructure.Services.Services
                 {
                     if (project.Deadline > DateTime.Now)
                     {
-                        Debug.WriteLine("Project deadline excedeed: " + project.Name);
+                        Console.WriteLine("Project deadline excedeed: " + project.Name);
                         isAnyDeadlineExcedeed = true;
                     }
                 }
             }
             if (!isAnyDeadlineExcedeed)
             {
-                Debug.WriteLine("Deadline not reached for any project. That's great!");
+                Console.WriteLine("Deadline not reached for any project. That's great!");
             }
         }
     }
