@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Serilog;
 using TremendBoard.Infrastructure.Services;
 using TremendBoard.Infrastructure.Services.Interfaces;
 using TremendBoard.Infrastructure.Services.Services;
@@ -75,6 +76,8 @@ namespace TremendBoard.Mvc
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseSerilogRequestLogging();
 
             app.UseEndpoints(endpoints =>
             {
