@@ -1,5 +1,6 @@
 ﻿using Hangfire;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using TremendBoard.Infrastructure.Services.Interfaces;
 
 namespace TremendBoard.Mvc.Controllers
@@ -25,5 +26,23 @@ namespace TremendBoard.Mvc.Controllers
             _backgroundJobClient.Enqueue(() => _jobTestService.FireAndForgetJob());
             return Ok();
         }
+
+        [HttpGet("/DelayedJob")]
+        public ActionResult DelayedJob()
+        {
+            _backgroundJobClient.Schedule(() =>
+                _jobTestService.DelayedJob(), 
+                TimeSpan.FromSeconds(10));
+            return Ok();
+        }
+        [HttpGet("/RecurringJob")]
+        public ActionResult CreateRecurringJob()
+        {
+            RecurringJob.AddOrUpdate(() => 
+                _jobTestService.ReccuringJob(), 
+                Cron.Daily);
+            return Ok();
+        }
+
     }
 }

@@ -29,7 +29,7 @@ namespace TremendBoard.Infrastructure.Services
                                        TimeSpan.FromSeconds(maxRetryDelay),
                                        null
                                    );
-                               }));
+                               }), ServiceLifetime.Transient, ServiceLifetime.Transient);
             services.AddIdentity<ApplicationUser, ApplicationRole>()
                 .AddEntityFrameworkStores<TremendBoardDbContext>()
                 .AddDefaultTokenProviders();
