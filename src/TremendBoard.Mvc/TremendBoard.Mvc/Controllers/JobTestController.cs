@@ -19,10 +19,18 @@ namespace TremendBoard.Mvc.Controllers
             _recurringJobManager = recurringJobManager;
         }
 
-        [HttpGet("/FireAndForgetJob")]
-        public ActionResult CreateFireAndForgetJob()
+        //[HttpGet("/FireAndForgetJob")]
+        //public ActionResult CreateFireAndForgetJob()
+        //{
+        //    _backgroundJobClient.Enqueue(() => _jobTestService.FireAndForgetJob());
+        //    return Ok();
+        //}
+
+        [HttpGet("/RecurringJob")]
+        public ActionResult CreateRecurringJob()
         {
-            _backgroundJobClient.Enqueue(() => _jobTestService.FireAndForgetJob());
+            _recurringJobManager.AddOrUpdate("jobId", () => _jobTestService.ReccuringAddTestProjectJob(), Cron.Minutely);
+
             return Ok();
         }
     }
