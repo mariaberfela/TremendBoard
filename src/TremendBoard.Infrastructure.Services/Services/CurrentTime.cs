@@ -8,7 +8,7 @@ using TremendBoard.Infrastructure.Services.Interfaces;
 
 namespace TremendBoard.Infrastructure.Services.Services
 {
-    internal class CurrentTime : ITimeService
+    public class CurrentTime : ITimeService
     {
         private string _currentTime;
 
