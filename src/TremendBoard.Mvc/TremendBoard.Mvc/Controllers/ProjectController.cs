@@ -266,39 +266,48 @@ namespace TremendBoard.Mvc.Controllers
         [HttpGet]
         public async Task<IActionResult> Delete(string id)
         {
-            var project = await _unitOfWork.Project.GetByIdAsync(id);
-            
+            //var project = await _unitOfWork.Project.GetByIdAsync(id);
+
+            var dto = await _projectService.Delete(id);
+            var project = _mapDtoToViewModel.IncompleteProjectDtoToViewModel(dto);
+
             if (project == null)
             {
                 StatusMessage = "Project not found";
                 return View();
             }
 
-            var model = new ProjectDetailViewModel
-            {
-                Name = project.Name,
-                Description = project.Description
-            };
+            //var model = new ProjectDetailViewModel
+            //{
+            //    Name = project.Name,
+            //    Description = project.Description
+            //};
 
-            return View(model);
+            return View(project);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(ProjectDetailViewModel model)
         {
-            var projectId = model.Id;
+            //var projectId = model.Id;
 
-            var project = await _unitOfWork.Project.GetByIdAsync(projectId);
-            
-            if (project == null)
-            {
-                StatusMessage = "Project not found";
-                return View();
-            }
+            //var project = await _unitOfWork.Project.GetByIdAsync(projectId);
 
-            _unitOfWork.Project.Remove(project);
-            await _unitOfWork.SaveAsync();
+
+
+            //if (project == null)
+            //{
+            //    StatusMessage = "Project not found";
+            //    return View();
+            //}
+
+            //_unitOfWork.Project.Remove(project);
+            //await _unitOfWork.SaveAsync();
+
+            var project = _mapViewModelToDto.ProjectViewModelToProjectDto(model);
+
+            await _projectService.Delete(project);
 
             return RedirectToAction(nameof(Index));
         }

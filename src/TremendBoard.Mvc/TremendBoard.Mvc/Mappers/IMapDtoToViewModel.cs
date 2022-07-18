@@ -8,6 +8,7 @@ namespace TremendBoard.Mvc.Mappers
     public interface IMapDtoToViewModel
     {
         ProjectDetailViewModel ProjectDtoToViewModel(ProjectDto projectDto);
+        ProjectDetailViewModel IncompleteProjectDtoToViewModel(ProjectDto projectDto);
         ProjectUserDetailViewModel ProjectUserDtoToViewModel(ProjectUserDto projectUserDto);
         ApplicationRoleDetailViewModel RoleToViewModel(RoleDto roleDto);
         UserDetailViewModel UserDtoToViewModel(UserDto userDto);

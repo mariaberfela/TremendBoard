@@ -14,5 +14,7 @@ namespace TremendBoard.Infrastructure.Services.Interfaces
         Task Create(ProjectDto project);
         Task<ProjectDto> Edit(string id);
         Task Edit(ProjectDto project);
+        Task<ProjectDto> Delete(string id);
+        Task Delete(ProjectDto projectDto);
     }
 }

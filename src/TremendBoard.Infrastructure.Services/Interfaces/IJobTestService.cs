@@ -1,10 +1,13 @@
-﻿namespace TremendBoard.Infrastructure.Services.Interfaces
+﻿using TremendBoard.Infrastructure.Services.DTOs;
+
+namespace TremendBoard.Infrastructure.Services.Interfaces
 {
     public interface IJobTestService
     {
-        void FireAndForgetJob();
-        void ReccuringJob();
-        void DelayedJob();
-        void ContinuationJob();
+        void ReccuringAddTestProjectJob();
+
+        void FireAndForgetRemoveTestProjectJob(ProjectDto projectDto);
+
+
     }
 }

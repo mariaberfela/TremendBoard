@@ -39,6 +39,29 @@ namespace TremendBoard.Infrastructure.Services.Services
 
         }
 
+        public async Task<ProjectDto> Delete(string id)
+        {
+            var project = await _unitOfWork.Project.GetByIdAsync(id);
+
+            var model = new ProjectDto
+            {
+                Name = project.Name,
+                Description = project.Description
+            };
+
+            return model;
+        }
+
+        public async Task Delete(ProjectDto model)
+        {
+            var projectId = model.Id;
+
+            var project = await _unitOfWork.Project.GetByIdAsync(projectId);
+
+            _unitOfWork.Project.Remove(project);
+            await _unitOfWork.SaveAsync();
+        }
+
         public async Task<ProjectDto> Edit(string id)
         {
             var project = await _unitOfWork.Project.GetByIdAsync(id);
@@ -171,5 +194,7 @@ namespace TremendBoard.Infrastructure.Services.Services
             await _unitOfWork.SaveAsync();
             
         }
+
+        
     }
 }

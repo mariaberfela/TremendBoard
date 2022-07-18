@@ -16,6 +16,11 @@ namespace TremendBoard.Mvc.Mappers
 
         }
 
+        public ProjectDetailViewModel IncompleteProjectDtoToViewModel(ProjectDto projectDto)
+        {
+            return _mapper.Map<ProjectDetailViewModel>(projectDto);
+        }
+
         public ProjectDetailViewModel ProjectDtoToViewModel(ProjectDto projectDto)
         {
             
