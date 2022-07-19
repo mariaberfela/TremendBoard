@@ -68,6 +68,12 @@ namespace TremendBoard.Infrastructure.Services.Concrete
             return count;
         }
 
+        public IProjectRepository ProjectDetails
+        {
+            get;
+            private set;
+        }
+
         public IProjectRepository Project
         {
             get;

@@ -3,7 +3,7 @@
     public interface IJobTestService
     {
         void FireAndForgetJob();
-        void ReccuringJob();
+        void RecurringJob();
         void DelayedJob();
         void ContinuationJob();
     }

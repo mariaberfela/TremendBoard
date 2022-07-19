@@ -5,6 +5,10 @@ namespace TremendBoard.Infrastructure.Services.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {
+        IProjectRepository ProjectDetails
+        {
+            get;
+        }
         IProjectRepository Project
         {
             get;
