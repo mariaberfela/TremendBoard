@@ -49,8 +49,16 @@ namespace TremendBoard.Infrastructure.Services.Interfaces
         /// <returns>Returns project user's role by id</returns>
         IEnumerable<ApplicationUserRole> GetApplicationUserRolesForProject(string projectId);
 
+        /// <summary>
+        /// Updates project with the modifications made
+        /// </summary>
+        /// <param name="project"></param>
         void UpdateProject(Project project);
 
+        /// <summary>
+        /// Saves the project
+        /// </summary>
+        /// <returns>Returns the saved project</returns>
         Task SaveProject();
     }
 }
