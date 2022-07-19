@@ -53,12 +53,10 @@ namespace TremendBoard.Infrastructure.Services.Interfaces
         /// Updates project with the modifications made
         /// </summary>
         /// <param name="project"></param>
-        void UpdateProject(Project project);
+        Task UpdateProject(Project project);
 
-        /// <summary>
-        /// Saves the project
-        /// </summary>
-        /// <returns>Returns the saved project</returns>
-        Task SaveProject();
+        Task AddUserRole(ApplicationUserRole userRole);
+
+        Task RemoveProject(Project project);
     }
 }

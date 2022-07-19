@@ -54,13 +54,21 @@ namespace TremendBoard.Infrastructure.Services.Services
             return  _unitOfWork.Project.GetProjectUserRoles(projectId);
         }
 
-        public void UpdateProject(Project project)
+        public async Task UpdateProject(Project project)
         {
             _unitOfWork.Project.Update(project);
+            await _unitOfWork.SaveAsync();
         }
 
-        public async Task SaveProject()
+        public async Task AddUserRole(ApplicationUserRole userRole)
         {
+            await _unitOfWork.UserRole.AddAsync(userRole);
+            await _unitOfWork.SaveAsync();
+        }
+
+        public async Task RemoveProject(Project project)
+        {
+            _unitOfWork.Project.Remove(project);
             await _unitOfWork.SaveAsync();
         }
     }

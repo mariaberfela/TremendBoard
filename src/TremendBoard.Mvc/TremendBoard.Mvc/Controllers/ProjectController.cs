@@ -16,13 +16,11 @@ namespace TremendBoard.Mvc.Controllers
 {
     public class ProjectController : Controller
     {
-        private readonly IUnitOfWork _unitOfWork;
         private readonly IProjectService _projectService;
         private readonly IMapper _mapper;
 
-        public ProjectController(IUnitOfWork unitOfWork, IProjectService projectService, IMapper mapper)
+        public ProjectController(IProjectService projectService, IMapper mapper)
         {
-            _unitOfWork = unitOfWork;
             _projectService = projectService;
             _mapper = mapper;
         }
@@ -114,7 +112,6 @@ namespace TremendBoard.Mvc.Controllers
                 Roles = rolesView
             };
 
-            _mapper.Map<Project>(model);
             var userRoles =  _projectService.GetApplicationUserRolesForProject(id);
 
             foreach (var userRole in userRoles)
@@ -138,8 +135,6 @@ namespace TremendBoard.Mvc.Controllers
             return View(model);
         }
 
-      
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(ProjectDetailViewModel model)
@@ -151,17 +146,12 @@ namespace TremendBoard.Mvc.Controllers
 
             var projectId = model.Id;
             var project = await _projectService.GetProjectById(projectId);
-            _mapper.Map<Project>(model);
             if (project == null)
             {
                 ModelState.AddModelError("Error", "Unable to load the project");
                 return View(model);
             }
-
-            project.Name = model.Name;
-            project.Description = model.Description;
-            project.ProjectStatus = model.ProjectStatus;
-            project.Deadline = model.Deadline;
+            project= _mapper.Map<Project>(model);
 
             var users = await _projectService.GetAllUsers();
             var usersView = users.Select(user => new UserDetailViewModel
@@ -209,8 +199,7 @@ namespace TremendBoard.Mvc.Controllers
                 model.ProjectUsers.Add(projectUser);
             }
 
-            _projectService.UpdateProject(project);
-            await _projectService.SaveProject();
+            await _projectService.UpdateProject(project);
 
             model.StatusMessage = $"{project.Name} project has been updated";
 
@@ -227,8 +216,8 @@ namespace TremendBoard.Mvc.Controllers
                 ModelState.AddModelError("Error", "Error");
                 return RedirectToAction(nameof(Edit), new { model.ProjectId });
             }
-
-            var project = await _unitOfWork.Project.GetByIdAsync(model.ProjectId);
+            
+            var project= await _projectService.GetProjectById(model.ProjectId);
 
             var userRole = new ApplicationUserRole
             {
@@ -237,8 +226,7 @@ namespace TremendBoard.Mvc.Controllers
                 RoleId = model.RoleId
             };
 
-            await _unitOfWork.UserRole.AddAsync(userRole);
-            await _unitOfWork.SaveAsync();
+            await _projectService.AddUserRole(userRole);
 
             return RedirectToAction(nameof(Edit), new { id = model.ProjectId });
         }
@@ -246,7 +234,7 @@ namespace TremendBoard.Mvc.Controllers
         [HttpGet]
         public async Task<IActionResult> Delete(string id)
         {
-            var project = await _unitOfWork.Project.GetByIdAsync(id);
+            var project = await _projectService.GetProjectById(id);
             
             if (project == null)
             {
@@ -269,16 +257,15 @@ namespace TremendBoard.Mvc.Controllers
         {
             var projectId = model.Id;
 
-            var project = await _unitOfWork.Project.GetByIdAsync(projectId);
-            
+            var project = await _projectService.GetProjectById(projectId);
+
             if (project == null)
             {
                 StatusMessage = "Project not found";
                 return View();
             }
 
-            _unitOfWork.Project.Remove(project);
-            await _unitOfWork.SaveAsync();
+            await _projectService.RemoveProject(project);
 
             return RedirectToAction(nameof(Index));
         }

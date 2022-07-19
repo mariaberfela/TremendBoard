@@ -19,7 +19,9 @@ namespace TremendBoard.Mvc.Mappers
 
             CreateMap<ApplicationRole, ApplicationRoleDetailViewModel>();
             CreateMap<ApplicationRoleDetailViewModel, ApplicationRole>();
-
+            
+            CreateMap<ApplicationUser, ProjectUserDetailViewModel>(); 
+            CreateMap<ProjectUserDetailViewModel, ApplicationUser>(); 
         }
     }
 }
