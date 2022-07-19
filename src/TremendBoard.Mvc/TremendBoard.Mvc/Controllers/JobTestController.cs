@@ -25,5 +25,12 @@ namespace TremendBoard.Mvc.Controllers
             _backgroundJobClient.Enqueue(() => _jobTestService.FireAndForgetJob());
             return Ok();
         }
+
+        [HttpGet("/RecurringJob")]
+        public ActionResult TheRecurringJob()
+        {
+            RecurringJob.AddOrUpdate(() => _jobTestService.RecurringJob(), Cron.Weekly);
+            return Ok($"Recurring Job Scheduled.");
+        }
     }
 }
