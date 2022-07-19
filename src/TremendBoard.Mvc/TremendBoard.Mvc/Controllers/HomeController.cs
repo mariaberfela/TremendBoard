@@ -8,8 +8,7 @@ namespace TremendBoard.Mvc.Controllers
     public class HomeController : Controller
     {
         private readonly IDateTime _dateTime;
-        private readonly ITimeService _timeService1, _timeService2;
-        
+
         public HomeController(IDateTime dateTime)
         {
             _dateTime = dateTime;
@@ -19,8 +18,7 @@ namespace TremendBoard.Mvc.Controllers
         {
             
             var serverTime = _dateTime.Now;
-            //ViewData["timeService1"] = _timeService1.GetCurrentTime();
-            //ViewData["timeService2"] = _timeService2.GetCurrentTime();
+           
             if (serverTime.Hour < 12)
             {
                 ViewData["Message"] = "It's morning here - Good Morning!";
