@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using TremendBoard.Infrastructure.Data.Models;
 using TremendBoard.Infrastructure.Data.Models.Identity;
@@ -16,10 +17,14 @@ namespace TremendBoard.Mvc.Controllers
     public class ProjectController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IProjectService _projectService;
+        private readonly IMapper _mapper;
 
-        public ProjectController(IUnitOfWork unitOfWork)
+        public ProjectController(IUnitOfWork unitOfWork, IProjectService projectService, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _projectService = projectService;
+            _mapper = mapper;
         }
 
         [TempData]
@@ -27,7 +32,8 @@ namespace TremendBoard.Mvc.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var projects = await _unitOfWork.Project.GetAllAsync();
+            var projects = await _projectService.GetProjects();
+            
             var projectsView = projects
                 .Select(x => new ProjectDetailViewModel
             {
@@ -58,15 +64,8 @@ namespace TremendBoard.Mvc.Controllers
             {
                 return View(model);
             }
-
-            await _unitOfWork.Project.AddAsync(new Project
-            {
-                Name = model.Name,
-                Description = model.Description,
-                CreatedDate = DateTime.Now
-            });
-
-            await _unitOfWork.SaveAsync();
+            var project = _mapper.Map<Project>(model);
+            await _projectService.CreateProject(project);
 
             return RedirectToAction(nameof(Index));
         }
@@ -74,14 +73,14 @@ namespace TremendBoard.Mvc.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
-            var project = await _unitOfWork.Project.GetByIdAsync(id);
-            
+            var project = await _projectService.GetProjectById(id);
+
             if (project == null)
             {
                 throw new ApplicationException($"Unable to load project with ID '{id}'.");
             }
 
-            var users = await _unitOfWork.User.GetAllAsync();
+            var users = await _projectService.GetAllUsers();
             var usersView = users.Select(user => new UserDetailViewModel
             {
                 Id = user.Id,
@@ -92,16 +91,16 @@ namespace TremendBoard.Mvc.Controllers
                 PhoneNumber = user.PhoneNumber
             });
 
-            var roles = await _unitOfWork.Role.GetAllAsync();
+            var roles = await _projectService.GetAllAplicationRoles();
             var rolesView = roles
-                .Where(x => x.Name != Role.Admin.ToString())
-                .OrderBy(x => x.Name)
-                .Select(r => new ApplicationRoleDetailViewModel
-                {
-                    Id = r.Id,
-                    RoleName = r.Name,
-                    Description = r.Description
-                });
+               .Where(x => x.Name != Role.Admin.ToString())
+               .OrderBy(x => x.Name)
+               .Select(r => new ApplicationRoleDetailViewModel
+               {
+                   Id = r.Id,
+                   RoleName = r.Name,
+                   Description = r.Description
+               });
 
             var model = new ProjectDetailViewModel
             {
@@ -109,17 +108,20 @@ namespace TremendBoard.Mvc.Controllers
                 Name = project.Name,
                 Description = project.Description,
                 ProjectUsers = new List<ProjectUserDetailViewModel>(),
+                ProjectStatus= project.ProjectStatus,
+                Deadline= project.Deadline,
                 Users = usersView,
                 Roles = rolesView
             };
 
-            var userRoles = _unitOfWork.Project.GetProjectUserRoles(id);
-            
+            _mapper.Map<Project>(model);
+            var userRoles =  _projectService.GetApplicationUserRolesForProject(id);
+
             foreach (var userRole in userRoles)
             {
                 var user = users.FirstOrDefault(x => x.Id == userRole.UserId);
                 var role = roles.FirstOrDefault(x => x.Id == userRole.RoleId);
-                
+
                 var projectUser = new ProjectUserDetailViewModel
                 {
                     ProjectId = id,
@@ -136,6 +138,8 @@ namespace TremendBoard.Mvc.Controllers
             return View(model);
         }
 
+      
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(ProjectDetailViewModel model)
@@ -146,8 +150,8 @@ namespace TremendBoard.Mvc.Controllers
             }
 
             var projectId = model.Id;
-            var project = await _unitOfWork.Project.GetByIdAsync(projectId);
-
+            var project = await _projectService.GetProjectById(projectId);
+            _mapper.Map<Project>(model);
             if (project == null)
             {
                 ModelState.AddModelError("Error", "Unable to load the project");
@@ -156,8 +160,10 @@ namespace TremendBoard.Mvc.Controllers
 
             project.Name = model.Name;
             project.Description = model.Description;
+            project.ProjectStatus = model.ProjectStatus;
+            project.Deadline = model.Deadline;
 
-            var users = await _unitOfWork.User.GetAllAsync();
+            var users = await _projectService.GetAllUsers();
             var usersView = users.Select(user => new UserDetailViewModel
             {
                 Id = user.Id,
@@ -168,7 +174,7 @@ namespace TremendBoard.Mvc.Controllers
                 PhoneNumber = user.PhoneNumber
             });
 
-            var roles = await _unitOfWork.Role.GetAllAsync();
+            var roles = await _projectService.GetAllAplicationRoles();
             var rolesView = roles
                 .Where(x => x.Name != Role.Admin.ToString())
                 .OrderBy(x => x.Name)
@@ -182,7 +188,7 @@ namespace TremendBoard.Mvc.Controllers
             model.Roles = rolesView;
             model.Users = usersView;
 
-            var userRoles = _unitOfWork.Project.GetProjectUserRoles(project.Id);
+            var userRoles = _projectService.GetApplicationUserRolesForProject(project.Id);
 
             model.ProjectUsers = new List<ProjectUserDetailViewModel>();
 
@@ -203,13 +209,14 @@ namespace TremendBoard.Mvc.Controllers
                 model.ProjectUsers.Add(projectUser);
             }
 
-            _unitOfWork.Project.Update(project);
-            await _unitOfWork.SaveAsync();
+            _projectService.UpdateProject(project);
+            await _projectService.SaveProject();
 
             model.StatusMessage = $"{project.Name} project has been updated";
 
             return View(model);
         }
+       
 
         [HttpPost]
         [ValidateAntiForgeryToken]

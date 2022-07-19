@@ -18,6 +18,7 @@ namespace TremendBoard.Infrastructure.Services
             services.AddSingleton<ITimeService, TimeService>();
             services.AddTransient<IJobTestService, JobTestService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<IProjectService, ProjectService>();
 
             services.AddDbContext<TremendBoardDbContext>(options =>
                                options.UseSqlServer(connectionString, x =>

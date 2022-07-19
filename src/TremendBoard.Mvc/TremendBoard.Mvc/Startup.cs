@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TremendBoard.Infrastructure.Services;
-
+using AutoMapper;
 namespace TremendBoard.Mvc
 {
     public class Startup
@@ -24,7 +24,7 @@ namespace TremendBoard.Mvc
             services.AddControllersWithViews();
             services.AddControllers();
             services.AddSingleton(Configuration);
-
+            services.AddAutoMapper(typeof(Startup));
             services.AddRepository(
                             Configuration.GetConnectionString("SqlConnectionString"),
                             Configuration.GetValue<int>("DbConnectionMaxRetryCount"),
