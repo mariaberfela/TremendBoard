@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Serilog;
 using TremendBoard.Infrastructure.Services;
 
 namespace TremendBoard.Mvc
@@ -65,7 +66,7 @@ namespace TremendBoard.Mvc
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseSerilogRequestLogging();
             app.UseRouting();
 
             app.UseAuthentication();

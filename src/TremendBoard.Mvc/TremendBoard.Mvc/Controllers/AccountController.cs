@@ -97,48 +97,46 @@ namespace TremendBoard.Mvc.Controllers
         public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var user = new ApplicationUser
             {
-                var user = new ApplicationUser
-                {
-                    FirstName = model.FirstName,
-                    LastName = model.LastName,
-                    UserName = model.Email,
-                    Email = model.Email
-                };
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                UserName = model.Email,
+                Email = model.Email
+            };
 
-                var result = await _userManager.CreateAsync(user, model.Password);
-                
-                if (result.Succeeded)
-                {                    
-                    //First user definition
-                    if (!_roleManager.Roles.Any())
-                    {
-                        await _roleManager.CreateAsync(new ApplicationRole
-                        {
-                            Name = Role.Admin.ToString(),
-                            Description = "Auto-Created role",
-                            Status = true
-                        });
+            var result = await _userManager.CreateAsync(user, model.Password);
 
-                        var newRoleResult = await _userManager.AddToRoleAsync(user, Role.Admin.ToString());
-                        
-                        if (!newRoleResult.Succeeded)
-                        {
-                            throw new ApplicationException($"Unable to add new user role.");
-                        }
-                    }
-                    
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-
-                    return RedirectToLocal(returnUrl);
-                }
-
+            if (!result.Succeeded)
+            {
                 AddErrors(result);
+                return View(model);
             }
 
-            // If we got this far, something failed, redisplay form
-            return View(model);
+            //First user definition
+            if (!_roleManager.Roles.Any())
+            {
+                await _roleManager.CreateAsync(new ApplicationRole
+                {
+                    Name = Role.Admin.ToString(),
+                    Description = "Auto-Created role",
+                    Status = true
+                });
+
+                var newRoleResult = await _userManager.AddToRoleAsync(user, Role.Admin.ToString());
+
+                if (!newRoleResult.Succeeded)
+                {
+                    throw new ApplicationException($"Unable to add new user role.");
+                }
+            }
+
+            await _signInManager.SignInAsync(user, isPersistent: false);
+
+            return RedirectToLocal(returnUrl);
         }
 
         [HttpPost]

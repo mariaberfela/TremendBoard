@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using TremendBoard.Infrastructure.Data.Models;
 using TremendBoard.Infrastructure.Data.Models.Identity;
 using TremendBoard.Infrastructure.Services.DTOs;
 using TremendBoard.Infrastructure.Services.Interfaces;
 using TremendBoard.Mvc.Enums;
-using TremendBoard.Mvc.Mappers;
 using TremendBoard.Mvc.Models.ProjectViewModels;
 using TremendBoard.Mvc.Models.RoleViewModels;
 using TremendBoard.Mvc.Models.UserViewModels;
