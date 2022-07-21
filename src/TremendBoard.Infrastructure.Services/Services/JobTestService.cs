@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TremendBoard.Infrastructure.Data.Models;
@@ -9,9 +10,11 @@ namespace TremendBoard.Infrastructure.Services.Services
     public class JobTestService: IJobTestService
     {
         private readonly IUnitOfWork _unitOfWork;
-        public JobTestService(IUnitOfWork unitOfWork)
+        private readonly ILogger<JobTestService> _logger;
+        public JobTestService(IUnitOfWork unitOfWork, ILogger<JobTestService> logger)
         {
             _unitOfWork = unitOfWork;
+            _logger = logger;
         }
 
         public void FireAndForgetJob()
@@ -37,7 +40,7 @@ namespace TremendBoard.Infrastructure.Services.Services
             bool isAnyDeadlineExcedeed = false;
             if (projects == null)
             {
-                Console.WriteLine("There is no project to check!");
+                _logger.LogInformation("There is no project to check!");
             }
             else
             {
@@ -45,14 +48,14 @@ namespace TremendBoard.Infrastructure.Services.Services
                 {
                     if (project.Deadline > DateTime.Now)
                     {
-                        Console.WriteLine("Project deadline excedeed: " + project.Name);
+                        _logger.LogInformation("Project deadline excedeed: " + project.Name);
                         isAnyDeadlineExcedeed = true;
                     }
                 }
             }
             if (!isAnyDeadlineExcedeed)
             {
-                Console.WriteLine("Deadline not reached for any project. That's great!");
+                _logger.LogInformation("Deadline not reached for any project. That's great!");
             }
         }
     }
