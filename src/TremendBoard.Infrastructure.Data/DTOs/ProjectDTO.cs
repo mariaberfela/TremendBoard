@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using TremendBoard.Infrastructure.Data.Models;
 using TremendBoard.Infrastructure.Data.Models.Identity;
 
-
-namespace TremendBoard.Infrastructure.Data.Models
+namespace TremendBoard.Infrastructure.Data.DTOs
 {
-    public class Project: BaseEntity
+    public class ProjectDTO
     {
-        [Required]
         public string Name { get; set; }
         public string Description { get; set; }
         public DateTime CreatedDate { get; set; }
@@ -18,8 +20,7 @@ namespace TremendBoard.Infrastructure.Data.Models
         [DataType(DataType.DateTime)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
         public DateTime Deadline { get; set; }
-        public virtual ICollection<ApplicationUserRole> UserRoles { get; set; }
-        public virtual ICollection<ProjectTask> Tasks { get; set; }
-        
+        public IEnumerable<ApplicationUserRole> UserRoles { get; set; }
+        public IEnumerable<ProjectTask> Tasks { get; set; }
     }
 }
