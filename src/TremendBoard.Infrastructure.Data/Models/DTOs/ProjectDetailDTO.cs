@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
-using TremendBoard.Mvc.Models.RoleViewModels;
-using TremendBoard.Mvc.Models.UserViewModels;
 
-namespace TremendBoard.Mvc.Models.ProjectViewModels
+namespace TremendBoard.Infrastructure.Data.Models.ViewModels
 {
-    public class ProjectDetailViewModel
+    public class ProjectDetailDTO
     {
         public string Id { get; set; }
         [Required]
@@ -21,8 +20,8 @@ namespace TremendBoard.Mvc.Models.ProjectViewModels
         public DateTime Deadline { get; set; }
         public string StatusMessage { get; set; }
 
-        public IList<ProjectUserDetailViewModel> ProjectUsers { get; set; }
-        public IEnumerable<UserDetailViewModel> Users { get; set; }
-        public IEnumerable<ApplicationRoleDetailViewModel> Roles { get; set; }
+        public IList<ProjectUserDetailDTO> ProjectUsers { get; set; }
+        public IEnumerable<UserDetailDTO> Users { get; set; }
+        public IEnumerable<ApplicationRoleDetailDTO> Roles { get; set; }
     }
 }

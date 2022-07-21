@@ -15,6 +15,8 @@
                         <tr>
                             <th>Name</th>
                             <th>Description</th>
+                            <th>Project Status</th>
+                            <th>Deadline</th>
                             <th class="text-center" style="width: 220px;">Action</th>
                         </tr>
                     </thead>
@@ -24,6 +26,8 @@
                             <tr>
                                 <td>@project.Name</td>
                                 <td>@project.Description</td>
+                                <td>@project.ProjectStatus</td>
+                                <td>@project.Deadline</td>
                                 <td class="text-center">
                                     <a asp-controller="Project" asp-action="Edit" asp-route-id="@project.Id" class="btn btn-warning">Edit</a>
                                     <a asp-controller="Project" asp-action="Delete" asp-route-id="@project.Id" class="btn btn-danger">Delete</a>

@@ -26,6 +26,8 @@ namespace TremendBoard.Mvc
             services.AddControllersWithViews();
             services.AddControllers();
             services.AddSingleton(Configuration);
+            services.AddAutoMapper(typeof(Startup));
+            services.AddControllersWithViews();
 
             services.AddRepository(
                             Configuration.GetConnectionString("SqlConnectionString"),
