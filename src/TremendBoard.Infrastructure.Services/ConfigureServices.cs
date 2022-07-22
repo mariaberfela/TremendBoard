@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Hangfire;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Configuration;
 using TremendBoard.Infrastructure.Data.Context;
 using TremendBoard.Infrastructure.Data.Models.Identity;
 using TremendBoard.Infrastructure.Services.Concrete;
@@ -32,7 +34,7 @@ namespace TremendBoard.Infrastructure.Services
             services.AddIdentity<ApplicationUser, ApplicationRole>()
                 .AddEntityFrameworkStores<TremendBoardDbContext>()
                 .AddDefaultTokenProviders();
-
+           
             return services;
         }
     }

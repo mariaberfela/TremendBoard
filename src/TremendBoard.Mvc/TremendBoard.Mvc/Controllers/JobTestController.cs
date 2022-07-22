@@ -1,5 +1,6 @@
 ﻿using Hangfire;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using TremendBoard.Infrastructure.Services.Interfaces;
 
 namespace TremendBoard.Mvc.Controllers
@@ -19,10 +20,13 @@ namespace TremendBoard.Mvc.Controllers
             _recurringJobManager = recurringJobManager;
         }
 
-        [HttpGet("/FireAndForgetJob")]
-        public ActionResult CreateFireAndForgetJob()
+        [HttpGet("/CreateAndCompareJobs")]
+        public ActionResult CreateAndCompareJobs()
         {
             _backgroundJobClient.Enqueue(() => _jobTestService.FireAndForgetJob());
+            RecurringJob.AddOrUpdate("recurring job", () => _jobTestService.ReccuringJob(), "*/1 * * * *");
+            var delayedJobId = _backgroundJobClient.Schedule(() => _jobTestService.DelayedJob(), TimeSpan.FromMinutes(1));
+            BackgroundJob.ContinueJobWith(delayedJobId, () => _jobTestService.ContinuationJob());
             return Ok();
         }
     }
