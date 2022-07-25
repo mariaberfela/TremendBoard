@@ -15,7 +15,7 @@ namespace TremendBoard.Infrastructure.Services.Interfaces
         /// </summary>
         /// <returns>Returns the collection of projects</returns>
         Task <IEnumerable<Project>> GetProjects();
- 
+
         /// <summary>
         /// Create a project 
         /// </summary>

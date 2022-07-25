@@ -17,12 +17,14 @@ namespace TremendBoard.Infrastructure.Services.Services
         {
             _unitOfWork = unitOfWork;
         }
-
+        public Task<IEnumerable<Project>> GetProject()
+        {
+            return _unitOfWork.Project.GetAsync();
+        }
         public async Task<IEnumerable<Project>> GetProjects()
         {
             return await _unitOfWork.Project.GetAllAsync();
         }
-
         public async Task CreateProject(Project project)
         {
          
@@ -32,7 +34,7 @@ namespace TremendBoard.Infrastructure.Services.Services
             await _unitOfWork.SaveAsync();
 
         }
-
+      
         public async Task<IEnumerable<ApplicationRole>> GetAllAplicationRoles()
         {
             return await _unitOfWork.Role.GetAllAsync();
