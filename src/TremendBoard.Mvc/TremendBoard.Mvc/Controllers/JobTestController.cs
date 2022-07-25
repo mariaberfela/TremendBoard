@@ -25,5 +25,14 @@ namespace TremendBoard.Mvc.Controllers
             _backgroundJobClient.Enqueue(() => _jobTestService.FireAndForgetJob());
             return Ok();
         }
+
+        [HttpGet("/CreateAndCompareJobs")]
+        public ActionResult CreateAndCompareJobs()
+        {
+            RecurringJob.AddOrUpdate("recurringJob", () => _jobTestService.ReccuringJob(), "*/1 * * * *");
+            var delay = _backgroundJobClient.Schedule(() => _jobTestService.DelayedJob(), System.TimeSpan.FromMinutes(3));
+            BackgroundJob.ContinueJobWith(delay, () => _jobTestService.ContinuationJob());
+            return Ok();
+        }
     }
 }

@@ -21,7 +21,7 @@ namespace TremendBoard.Infrastructure.Services.Interfaces
         /// </summary>
         /// <param name="project"></param>
         /// <returns>Return and save the project created</returns>
-        Task CreateProject(Project project);
+        Task<bool> CreateProject(Project project);
 
         /// <summary>
         /// Gets project by id  

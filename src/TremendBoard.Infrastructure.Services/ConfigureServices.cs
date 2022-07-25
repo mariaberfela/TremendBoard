@@ -7,6 +7,8 @@ using TremendBoard.Infrastructure.Data.Models.Identity;
 using TremendBoard.Infrastructure.Services.Concrete;
 using TremendBoard.Infrastructure.Services.Interfaces;
 using TremendBoard.Infrastructure.Services.Services;
+using Hangfire;
+using System.Configuration;
 
 namespace TremendBoard.Infrastructure.Services
 {

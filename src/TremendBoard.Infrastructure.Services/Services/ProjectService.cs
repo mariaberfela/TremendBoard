@@ -25,13 +25,14 @@ namespace TremendBoard.Infrastructure.Services.Services
         {
             return await _unitOfWork.Project.GetAllAsync();
         }
-        public async Task CreateProject(Project project)
+        public async Task<bool> CreateProject(Project project)
         {
          
             project.CreatedDate = DateTime.Now;
             await _unitOfWork.Project.AddAsync(project);
 
             await _unitOfWork.SaveAsync();
+            return true;
 
         }
       
