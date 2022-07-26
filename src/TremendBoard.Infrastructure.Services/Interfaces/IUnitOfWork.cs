@@ -28,7 +28,7 @@ namespace TremendBoard.Infrastructure.Services.Interfaces
         {
             get;
         }
-
+       
         Task<int> SaveAsync();
     }
 }

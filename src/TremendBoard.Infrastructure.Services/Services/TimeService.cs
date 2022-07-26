@@ -19,6 +19,12 @@ namespace TremendBoard.Infrastructure.Services.Services
            
             return _time;
         }
-       
+        public string GoodDay()
+        {
+            var hour = DateTime.Now.Hour;
+            if (hour < 10)
+                return "Good Morning!";
+            else return "Hello!";
+        }
     }
 }

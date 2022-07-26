@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace TremendBoard.Infrastructure.Services.Interfaces
 {
-     public interface ITimeService
+    public interface IDay
     {
-        string GetCurrentTime();
-        string GoodDay();
+       int CalculateRemainingHoursInThisDay(int hours);
     }
 }
