@@ -33,7 +33,7 @@ namespace TremendBord.FunctionalTests.ControllerViews
             var controller = new HomeController(dateService.Object);
 
             // Act
-            var result = controller.Index();
+           var result = controller.Index();
 
             // Assert
             Assert.That(result, Is.Not.Null);

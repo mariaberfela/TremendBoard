@@ -1,0 +1,37 @@
+﻿4)+5)
+Transient:
+Rulare:
+timeService1: 09:49:41.140
+
+timeService2: 09:49:41.142
+
+6)
+Scoped:
+Rulare:
+timeService1: 09:52:24.197
+
+timeService2: 09:52:24.197
+
+Refresh:
+timeService1: 09:53:31.378
+
+timeService2: 09:53:31.378
+
+7)
+Rulare:
+timeService1: 10:00:03.233
+
+timeService2: 10:00:03.236
+
+Refresh:
+
+timeService1: 10:00:38.100
+
+timeService2: 10:00:38.101
+
+Stop & Start:
+
+
+timeService1: 10:01:01.786
+
+timeService2: 10:01:01.803

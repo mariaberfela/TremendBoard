@@ -12,12 +12,13 @@ namespace TremendBoard.Mvc.Controllers
         public HomeController(IDateTime dateTime)
         {
             _dateTime = dateTime;
+          
         }
-
         public IActionResult Index()
         {
-            var serverTime = _dateTime.Now;
             
+            var serverTime = _dateTime.Now;
+           
             if (serverTime.Hour < 12)
             {
                 ViewData["Message"] = "It's morning here - Good Morning!";
